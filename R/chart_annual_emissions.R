@@ -77,6 +77,7 @@ chart_annual_emissions_by <- function (
     scale_y_emissions(
       "tons/yr",
       #c("tons/yr", "tons/yr"),
+      labels = format_SI,
       expand = expand_scale(mult = c(0, 0.3)))
 
   if (is.null(caption)) {
