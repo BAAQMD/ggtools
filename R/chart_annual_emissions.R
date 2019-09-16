@@ -1,5 +1,20 @@
 #' chart_annual_emissions_by
 #'
+#' Experimental support for easy charting of annual emissions.
+#'
+#' @note **Please don't use in production code! Thank you!**
+#'
+#' @param annual_emission_data tabular, with at least `year`, `pol_abbr`, `ems_qty`, and `ems_unit`
+#' @param ... not used
+#' @param geom supply "line" or "point" if you don't want filled areas
+#' @param flag_years if provided, will display numeric values above these
+#' @param title passed to `labs()`
+#' @param subtitle passed to `labs()`
+#' @param caption passed to `labs()`
+#' @param verbose display messages
+#'
+#' @rdname chart_annual_emissions
+#'
 #' @export
 chart_annual_emissions_by <- function (
   annual_emission_data,
@@ -12,9 +27,16 @@ chart_annual_emissions_by <- function (
   verbose = TRUE
 ) {
 
-  msg <- function (...) if(isTRUE(verbose)) message("[plot_annual_emissions] ", ...)
+  msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_emissions_by] ", ...)
 
   msg("WARNING: experimental --- do not use in production!")
+
+  grp_vars <-
+    annual_emission_data %>%
+    group_by(pol_abbr, add = TRUE) %>%
+    dplyr::group_vars()
+
+  msg("grouping by: ", str_csv(grp_vars))
 
   pol_abbrs_in_data <-
     annual_emission_data %>%
@@ -34,21 +56,26 @@ chart_annual_emissions_by <- function (
   chart_data <-
     annual_emission_data %>%
     annual_emissions_by(
-      pol_abbr, ...) %>%
+      !!grp_vars, ...) %>%
     mutate(
       pol_facet = fct_collapse(
         pol_abbr,
-        !!!pol_facet_list))
+        !!!pol_facet_list)) %>%
+    unite(
+      series,
+      !!grp_vars,
+      remove = FALSE)
 
   chart_x_scale <-
     scale_x_annual(
-      limits = c(1990, 2030),
+      limits = c(1990, 2040),
       breaks = seq(1990, 2050, by = 10),
       expand = c(0, 0))
 
   chart_y_scale <-
     scale_y_emissions(
-      c("tons/yr", "tons/yr"),
+      "tons/yr",
+      #c("tons/yr", "tons/yr"),
       expand = expand_scale(mult = c(0, 0.3)))
 
   if (is.null(caption)) {
@@ -65,31 +92,6 @@ chart_annual_emissions_by <- function (
       subtitle = subtitle,
       caption = caption)
 
-  chart_aes <-
-    aes(
-      x = elide_year(year),
-      y = ems_qty)
-
-  if (!is.null(geom)) {
-
-    chart_layers <-
-      get(str_c("geom_", geom))()
-
-  } else {
-
-    chart_layers <-
-      list(
-        geom_area(
-          aes(group = pol_abbr),
-          position = position_identity(),
-          alpha = I(0.2),
-          fill = gray(0.7)),
-        geom_line(
-          aes(group = pol_abbr),
-          color = "black"))
-
-  }
-
   chart_theme <-
     theme_simple() +
     theme(
@@ -103,6 +105,61 @@ chart_annual_emissions_by <- function (
       scales = "free_y",
       repeat.tick.labels = TRUE)
 
+  chart_aes <-
+    list(
+      aes(x = elide_year(year)),
+      aes(y = ems_qty))
+
+  chart_color_scale <-
+    scale_color_excel_new()
+
+  directlabel_data <-
+    chart_data %>%
+    drop_vars(
+      series,
+      pol_facet) %>%
+    filter(
+      elide_year(year) == max(elide_year(year))) %>%
+    nest(
+      pol_abbr = starts_with("pol_")) %>%
+    mutate(
+      pol_abbr = map_chr(
+        pol_abbr,
+        ~ str_csv(.$pol_abbr)))
+
+  directlabel_layer <-
+    geom_label(
+      aes(label = pol_abbr),
+      data = directlabel_data)
+
+  if (!is.null(geom)) {
+
+    chart_geom <-
+      get(str_c("geom_", geom))
+
+    chart_layers <-
+      list(
+        #directlabel_layer,
+        chart_geom(
+          aes(group = series)))
+
+
+  } else {
+
+    chart_layers <-
+      list(
+        #directlabel_layer,
+        geom_area(
+          aes(group = series),
+          position = position_identity(),
+          alpha = I(0.2),
+          fill = gray(0.7)),
+        geom_line(
+          aes(group = series),
+          color = "black"))
+
+  }
+
   chart_object <-
     ggplot(chart_data) +
     chart_theme +
@@ -111,6 +168,7 @@ chart_annual_emissions_by <- function (
     chart_faceting +
     chart_x_scale +
     chart_y_scale +
+    chart_color_scale +
     chart_description
 
   if (!is.null(flag_years)) {
@@ -119,11 +177,12 @@ chart_annual_emissions_by <- function (
 
     flag_data <-
       chart_data %>%
+      drop_vars(
+        series,
+        pol_abbr) %>%
+      distinct() %>%
       filter(
-        elide_year(year) %in% elide_year(flag_years)) %>%
-      select(
-        -pol_abbr) %>%
-      distinct()
+        elide_year(year) %in% elide_year(flag_years))
 
     flag_nudge_y <-
       flag_data %>%
@@ -137,7 +196,7 @@ chart_annual_emissions_by <- function (
       list(
         geom_point(
           data = flag_data),
-        geom_text_repel(
+        ggrepel::geom_text_repel(
           aes(
             #y = ems_qty * 0.50,
             label = glue::glue(
@@ -152,6 +211,7 @@ chart_annual_emissions_by <- function (
           direction = "y",
           nudge_y = flag_nudge_y,
           size = I(3.5),
+          show.legend = FALSE,
           data = flag_data))
 
     chart_object <-
@@ -163,3 +223,11 @@ chart_annual_emissions_by <- function (
   return(chart_object)
 
 }
+
+#'-----------------------------------------------------------------------------
+
+#' chart_annual_emissions
+#'
+#' @export
+chart_annual_emissions <-
+  chart_annual_emissions_by
