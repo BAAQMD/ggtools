@@ -6,12 +6,12 @@
 \title{chart_annual_emissions_by}
 \usage{
 chart_annual_emissions_by(annual_emission_data, ..., geom = NULL,
-  flag_years = NULL, title = NULL, subtitle = NULL, caption = NULL,
-  verbose = TRUE)
+  flag_years = NULL, year_limits = c(1990, 2035), title = NULL,
+  subtitle = NULL, caption = NULL, verbose = TRUE)
 
 chart_annual_emissions(annual_emission_data, ..., geom = NULL,
-  flag_years = NULL, title = NULL, subtitle = NULL, caption = NULL,
-  verbose = TRUE)
+  flag_years = NULL, year_limits = c(1990, 2035), title = NULL,
+  subtitle = NULL, caption = NULL, verbose = TRUE)
 }
 \arguments{
 \item{annual_emission_data}{tabular, with at least \code{year}, \code{pol_abbr}, \code{ems_qty}, and \code{ems_unit}}

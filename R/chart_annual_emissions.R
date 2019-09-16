@@ -21,6 +21,7 @@ chart_annual_emissions_by <- function (
   ...,
   geom = NULL,
   flag_years = NULL,
+  year_limits = c(1990, 2035),
   title = NULL,
   subtitle = NULL,
   caption = NULL,
@@ -68,7 +69,7 @@ chart_annual_emissions_by <- function (
 
   chart_x_scale <-
     scale_x_annual(
-      limits = c(1990, 2040),
+      limits = year_limits,
       breaks = seq(1990, 2050, by = 10),
       expand = c(0, 0))
 
