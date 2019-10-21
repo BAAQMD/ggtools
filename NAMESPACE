@@ -2,6 +2,7 @@
 
 export(chart_annual_emissions)
 export(chart_annual_emissions_by)
+export(chart_annual_quantities)
 export(gg_annual_chart)
 export(gg_emission_chart)
 export(gg_histogram)
