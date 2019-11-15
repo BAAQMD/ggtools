@@ -44,7 +44,7 @@ chart_annual_quantities_by <- function (
   msg("qty_var is: ", qty_var)
 
   #
-  # Autodetect `year_limits`, if not specified.
+  # Downgrade `year_limits` to a numeric vector.
   #
 
   if (!is.null(year_limits)) {
@@ -63,7 +63,7 @@ chart_annual_quantities_by <- function (
       names(data),
       ...)
 
-  msg("by_vars is: ", names(by_vars))
+  msg("by_vars is: ", strtools::str_csv(names(by_vars)))
 
   #
   # Create `chart_x_scale`.
@@ -235,12 +235,18 @@ chart_annual_quantities_by <- function (
   }
 
   chart_color_scale <-
-    ggthemes::scale_color_few(
-      palette = "Dark")
+    scale_color_tableau()
 
   chart_fill_scale <-
-    ggthemes::scale_fill_few(
-      palette = "Dark")
+    scale_fill_tableau()
+
+  #chart_color_scale <-
+  #  ggthemes::scale_color_few(
+  #    palette = "Dark")
+  #
+  # chart_fill_scale <-
+  #  ggthemes::scale_fill_few(
+  #    palette = "Dark")
 
   chart_theme <-
     theme_simple() +
