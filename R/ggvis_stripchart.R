@@ -33,7 +33,7 @@ ggvis_stripchart <- function (
 
   if (is.null(y_axis_title)) {
     if ("ems_unit" %in% names(input_data)) {
-      y_axis_title <- unique(input_data$ems_unit) %>% ensure(length(.) == 1)
+      y_axis_title <- unique(input_data$ems_unit) %>% ensurer::ensure(length(.) == 1)
     } else {
       y_axis_title <- as.character(y) %>% str_replace("~", "")
     }

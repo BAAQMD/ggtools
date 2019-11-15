@@ -46,7 +46,7 @@ gg_annual_chart <- function (chart_data, qty_var = NULL, format = NULL, ..., ver
 
   y_unit <-
     unique(chart_data[[unit_var]]) %>%
-    ensure(length(.) == 1) %>%
+    ensurer::ensure(length(.) == 1) %>%
     str_remove_all("/yr$")
 
   if ("pol_abbr" %in% names(chart_data)) {

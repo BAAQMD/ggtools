@@ -15,7 +15,7 @@ gg_scatterplot <- function (
     msg("setting breaks to waiver()")
     breaks <- waiver()
   } else {
-    break_width <- unique(diff(breaks)) %>% ensure(length(.) == 1)
+    break_width <- unique(diff(breaks)) %>% ensurer::ensure(length(.) == 1)
     limits <- range(breaks) + c(-0.5, 0.5) * break_width
     msg("setting limits to: ", limits)
   }
