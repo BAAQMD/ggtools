@@ -66,6 +66,7 @@ theme_simple <- function (
   theme_parts <-
     list(
       theme_linedraw(...),
+      theme(plot.margin = uniform_margin(10, "pt")),
       title_styling,
       panel_styling,
       axis_styling,
