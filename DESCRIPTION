@@ -1,7 +1,7 @@
 Package: ggtools
 Type: Package
 Title: Quickly Plot Inventoried Emissions and Throughputs
-Version: 2019.09.16
+Version: 2019.10.25
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
 Description: Simple helper functions for leveraging ggplot2.
@@ -10,6 +10,7 @@ Depends:
   strtools,
   tbltools,
   qtytools,
+  yeartools,
   ggplot2,
   ggthemes,
   viridis,
@@ -19,11 +20,44 @@ Depends:
 Reverse-depends: 
   inventory
 Suggests:
-  lemon,
-  ggvis,
-  chroma
+    lemon,
+    ggvis,
+    chroma,
+    testthat (>= 2.1.0)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
+Collate: 
+    'chart_annual_by.R'
+    'chart_annual_quantities_by.R'
+    'chart_annual_emissions_by.R'
+    'chart_annual_growth_by.R'
+    'gg_annual_chart.R'
+    'gg_chart.R'
+    'gg_emission_chart.R'
+    'gg_histogram.R'
+    'gg_plot.R'
+    'gg_scatterplot.R'
+    'gg_theme_inventory.R'
+    'gg_theme_minimalist.R'
+    'gg_throughput_chart.R'
+    'ggplot2_piechart.R'
+    'ggvis_barchart.R'
+    'ggvis_stripchart.R'
+    'google_barchart.R'
+    'google_piechart.R'
+    'humanize_id_vars.R'
+    'scale_color_pollutant.R'
+    'scale_cubehelix.R'
+    'scale_x_annual.R'
+    'scale_x_decades.R'
+    'scale_xy.R'
+    'scale_y_SI_units.R'
+    'scale_y_emissions.R'
+    'scale_y_percentage.R'
+    'scale_y_quantity.R'
+    'theme_simple.R'
+    'write_png.R'
+VignetteBuilder: knitr
