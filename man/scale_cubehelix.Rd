@@ -6,16 +6,14 @@
 \alias{scale_color_cubehelix}
 \title{scale_cubehelix}
 \usage{
-scale_cubehelix(name, aesthetics, ..., start = 0, rot = 0.4,
-  gamma = 1, chrom = 0.8, light = 0.85, dark = 0.15)
+scale_cubehelix(aesthetics, ..., start = 0, rot = 0.4, gamma = 1,
+  chrom = 0.8, light = 0.85, dark = 0.15)
 
 scale_fill_cubehelix(...)
 
 scale_color_cubehelix(...)
 }
 \arguments{
-\item{name}{as in \code{ggplot2::continuous_scale()}}
-
 \item{...}{further arguments to \code{ggplot2::continuous_scale()}}
 
 \item{start}{see Details}
@@ -27,6 +25,8 @@ scale_color_cubehelix(...)
 \item{light}{see Details}
 
 \item{dark}{see Details}
+
+\item{name}{as in \code{ggplot2::continuous_scale()}}
 }
 \description{
 scale_cubehelix

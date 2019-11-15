@@ -1,7 +1,7 @@
 Package: ggtools
 Type: Package
 Title: Quickly Plot Inventoried Emissions and Throughputs
-Version: 2019.10.25
+Version: 2019.11.15
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
 Description: Simple helper functions for leveraging ggplot2.
@@ -49,7 +49,6 @@ Collate:
     'google_barchart.R'
     'google_piechart.R'
     'humanize_id_vars.R'
-    'scale_color_pollutant.R'
     'scale_cubehelix.R'
     'scale_x_annual.R'
     'scale_x_decades.R'

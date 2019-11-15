@@ -2,6 +2,7 @@
 
 export(chart_annual_emissions)
 export(chart_annual_emissions_by)
+export(chart_annual_growth)
 export(chart_annual_growth_by)
 export(chart_annual_quantities)
 export(chart_annual_quantities_by)
