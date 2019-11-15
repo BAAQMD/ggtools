@@ -104,7 +104,7 @@ BY2011_annual_emission_data %>%
     color = cat_id)
 ```
 
-The default color scheme is provided by `scale_color_few("Dark")`. This supplies up to nine distinct colors. You can try using a different color scheme if you like. Go to the "Help" pane in RStudio, and type "scale_color_" --- then wait. You should see a list of choices pop up.
+The default color scheme is provided by `scale_color_tableau()`. This supplies up to ten distinct colors. You can try using a different color scheme if you like. Go to the "Help" pane in RStudio, and type "scale_color_" --- then wait. You should see a list of choices pop up.
 
 ### Flagging values
 
