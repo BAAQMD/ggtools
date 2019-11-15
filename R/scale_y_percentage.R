@@ -1,3 +1,5 @@
+#' scale_y_percentage
+#'
 #' @export
 scale_y_percentage <- function (
   ...,
