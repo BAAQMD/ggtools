@@ -8,6 +8,7 @@ chart_annual_emissions_by <- function (
   data = NULL,
   ...,
   mapping = aes(),
+  qty_var = "ems_qty",
   geom = NULL,
   year_limits = NULL,
   flag_years = NULL,
@@ -21,7 +22,13 @@ chart_annual_emissions_by <- function (
 
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_emissions_by] ", ...)
 
-  msg("WARNING: experimental --- do not use in production!")
+  #
+  # If `year` isn't present, try reshaping the data.
+  #
+  if (!is.null(data) && ("year" %not_in% names(data))) {
+    data <- gather_years(data, "ems_qty", verbose = verbose)
+    qty_var <- "ems_qty"
+  }
 
   #
   # Let `chart_y_scale` be a scale specific to emissions.
@@ -67,7 +74,7 @@ chart_annual_emissions_by <- function (
       ...,
       mapping = mapping,
       geom = geom,
-      qty_var = "ems_qty",
+      qty_var = qty_var,
       chart_y_scale = chart_y_scale,
       year_limits = year_limits,
       flag_years = flag_years,

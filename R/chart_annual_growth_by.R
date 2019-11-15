@@ -9,6 +9,7 @@
 chart_annual_growth_by <- function (
   data,
   ...,
+  mapping = aes(),
   base_year,
   qty_var = NULL,
   geom = "line",
@@ -23,10 +24,24 @@ chart_annual_growth_by <- function (
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_growth_by] ", ...)
 
   #
+  # If `year` isn't present, try reshaping the data.
+  #
+  if (!is.null(data) && ("year" %not_in% names(data))) {
+    data <- gather_years(data, gf_qty, verbose = verbose)
+    qty_var <- "gf_qty"
+  }
+
+  #
   # Autodetect `qty_var`, if not specified.
   #
+  # Although `chart_annual_quantities_by()` would autodetect `qty_var`, we
+  # need to autodetect it here so that we can use it in our `normalize()`
+  # function (as defined below). `normalize()` then computes `gf_qty` ---
+  # overwriting any existing `gf_qty` --- and we then explicitly tell
+  # `chart_annual_quantities_by()` to use `gf_qty`.
+  #
 
-  if (is.null(qty_var)) {
+  if (!is.null(data) && is.null(qty_var)) {
 
     qty_var <-
       vartools::find_var(
@@ -34,6 +49,8 @@ chart_annual_growth_by <- function (
         suffix = "_qty")
 
   }
+
+  msg("qty_var is: ", qty_var)
 
   #
   # To normalize a chunk of (grouped) data. (Look for `group_modify()`, below.)
@@ -63,7 +80,7 @@ chart_annual_growth_by <- function (
       names(data),
       ...)
 
-  msg("by_vars is: ", by_vars)
+  msg("by_vars is: ", strtools::str_csv(by_vars))
 
   #
   # Apply `normalize()` (defined above) to each group of data,
@@ -72,7 +89,7 @@ chart_annual_growth_by <- function (
 
   normalized_data <-
     data %>%
-    annual_quantities_by(
+    annual_quantities_by(   # FIXME: explicitly supply value var (now "gf_qty")
       by_vars,
       verbose = verbose) %>%
     group_by_at(
@@ -93,6 +110,7 @@ chart_annual_growth_by <- function (
     normalized_data %>%
     chart_annual_quantities_by(
       ...,
+      mapping = mapping,
       qty_var = "gf_qty",
       geom = geom,
       chart_y_scale = chart_y_scale,
@@ -107,3 +125,12 @@ chart_annual_growth_by <- function (
   return(chart_object)
 
 }
+
+#' chart_annual_growth
+#'
+#' @noRd
+#'
+#' @export
+chart_annual_growth <-
+  chart_annual_growth_by
+
