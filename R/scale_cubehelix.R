@@ -30,7 +30,6 @@
 #' - sane values seem to be in [0.5, 3] (whitened, darkened)
 #'
 scale_cubehelix <- function (
-  name,
   aesthetics,
   ...,
   start = 0,
@@ -51,11 +50,10 @@ scale_cubehelix <- function (
 
   scale_object <-
     ggplot2::continuous_scale(
+      ...,
       aesthetics = aesthetics,
       scale_name = "cubehelix",
-      palette = cubehelix_palette,
-      name = name,
-      ...)
+      palette = cubehelix_palette)
 
   return(scale_object)
 
