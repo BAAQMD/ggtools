@@ -81,10 +81,6 @@ This section will show you how to create charts showing annual emissions for:
 Let's try it out on a relatively simple case: charting NOx emissions from category `#283`, natural gas consumed for residential water heating.
 
 ```{r BY2011_annual_emission_data-283-NOx, message = FALSE}
-#
-# Note: Because there is only one distinct `cat_id` in these data, it is fine to use
-# the shorthand `chart_annual_emissions()` instead of `chart_annual_emissions_by(cat_id)`.
-#
 BY2011_annual_emission_data %>%
   filter_categories(
     283) %>%
@@ -209,17 +205,16 @@ Here is a simple example:
 ```{r BY2011_annual_emission_data-283-NOx-chart_annual_growth_by, message = FALSE}
 #
 # Note how similar this is to the very first example. The only difference is the use
-# of `chart_annual_growth_by()` in place of `chart_annual_emissions_by()`, and the
-# provision of a `base_year`.
+# of `chart_annual_growth()` in place of `chart_annual_emissions()`, and the
+# provision of an explicit `base_year`.
 #
 BY2011_annual_emission_data %>%
   filter_categories(
     283) %>%
   filter_pollutants(
     "NOx") %>%
-  chart_annual_growth_by(
-    cat_id,
-    base_year = BY(2011)) # required; can be BY or CY
+  chart_annual_growth(
+    base_year = CY(2011)) # required; can be BY or CY
 ```
 
 We can enhance it in exactly the same way, too:
