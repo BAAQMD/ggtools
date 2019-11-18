@@ -13,7 +13,7 @@ chart_annual_quantities_by <- function (
   geom = "line",
   year_limits = CY(1990, 2040),
   year_breaks = seq(1990, 2050, by = 10),
-  year_expand = expand_scale(add = c(0, 1), mult = c(0, 0)),
+  year_expand = expand_scale(add = c(5, 5), mult = c(0, 0)),
   flag_years = NULL,
   flag_labels = NULL,
   base_year = NULL,
