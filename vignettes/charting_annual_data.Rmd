@@ -3,9 +3,9 @@ title: "Charting Annual Data"
 date: "`r Sys.Date()`"
 output: 
   html_vignette:
-    df_print: tibble
+    df_print: kable
     toc: true
-    toc_depth: 3
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Charting Annual Data}
   \usepackage[utf8]{inputenc}
@@ -17,6 +17,8 @@ editor_options:
 ```{r options, include = FALSE, message = FALSE}
 library(knitr)
 opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
   fig.width = 8,
   fig.height = 4,
   out.width = 700,
@@ -56,8 +58,8 @@ Wait for it --- `inventory` imports a lot of stuff! You will see a lot of red me
 `BY2011_annual_emission_data` is *tabular data* supplied by the `BY2011`
 package. Since we invoked `library(BY2011)`, we have access to it. **Here is what it looks like.**
 
-```{r BY2011_annual_emission_data-show}
-show(BY2011_annual_emission_data)
+```{r BY2011_annual_emission_data-head}
+head(BY2011_annual_emission_data)
 ```
 
 ## Charting annual emissions
@@ -119,7 +121,7 @@ BY2011_annual_emission_data %>%
     "NOx") %>%
   chart_annual_emissions_by(
     color = cat_id,
-    flag_years = CY(1993, 2011))
+    flag_years = CY(1993, 2011, 2030))
 ```
 
 ### Humanizing category names
@@ -135,7 +137,7 @@ BY2011_annual_emission_data %>%
     "NOx") %>%
   chart_annual_emissions_by(
     color = category,
-    flag_years = CY(1993, 2011))
+    flag_years = CY(1993, 2011, 2030))
 ```
 
 ### Titling and captioning
@@ -151,8 +153,8 @@ BY2011_annual_emission_data %>%
     "NOx") %>%
   chart_annual_emissions_by(
     color = category,
-    flag_years = CY(1993, 2011),
-    title = "Residential NG Combustion: Water and Space Heating",
+    flag_years = CY(1993, 2011, 2030),
+    title = "Residential NG Combustion: Space and Water Heating",
     subtitle = "Between CY1993-2002, controls on NOx from water heating were strengthened.")
 ```
 
@@ -170,7 +172,7 @@ BY2011_annual_emission_data %>%
   chart_annual_emissions_by(
     color = category,
     geom = "area",
-    title = "Residential NG Combustion: Water and Space Heating",
+    title = "Residential NG Combustion: Space and Water Heating",
     subtitle = "Combined emissions from water and space heating have declined, but are projected to rise reach 1990 levels by 2030.")
 ```
 
@@ -188,11 +190,15 @@ BY2011_annual_emission_data %>%
     "PM10") %>%
   chart_annual_emissions_by(
     color = category,
-    title = "Residential NG Combustion: Water and Space Heating",
+    title = "Residential NG Combustion: Space and Water Heating",
     subtitle = "Between CY1993-2002, controls on NOx from water heating were strengthened.")
 ```
 
-## Charting annual growth
+***
+
+# Charting annual growth
+
+## Charting relative changes in emissions
 
 What if we want to view the above in terms of annual growth, relative to a given `base_year`? 
 
@@ -230,7 +236,7 @@ BY2011_annual_emission_data %>%
     color = category,
     base_year = BY(2011),
     flag_years = CY(1993, 2002, 2030),
-    title = "Residential NG Combustion: Water and Space Heating",
+    title = "Residential NG Combustion: Space and Water Heating",
     subtitle = str_c(
       "Between CY1993-2002, controls on NOx from water heating in the Bay Area reduced those emissions by nearly half.",
       "Emissions from both water and space heating are projected to grow by approximately +24% from CY2011 to CY2030.",
@@ -238,16 +244,174 @@ BY2011_annual_emission_data %>%
       sep = "\n")) # combine lines with a newline
 ```
 
-You can use this technique with data that have already been "normalized", like growth profiles. There's no difference in the output.
+## Charting a growth profile
 
-## Charting throughputs
+You can use this technique with data that have already been "normalized", like growth profiles. There's no difference in the output. Here's an example where we chart an associated growth profile directly, in both its "normalized" and "raw" forms.
 
-TODO: showcase `chart_annual_throughputs_by()`.
+### Charting normalized growth factors
 
-## Charting emission factors
+```{r QA_normalized_gf_data, cache = TRUE}
+#
+# `DB_growth_profiles()` automatically normalizes BY2011 data to CY2011.
+#
+QA_normalized_gf_data <-
+  BY(2011) %>%
+  DB_growth_profiles(
+    verbose = TRUE) %>%
+  filter_categories(
+    "#283 Space Heating" = 283) 
+```
 
-TODO: showcase `chart_annual_quantities_by()`, using emission factors for some category where they vary over time.
+Here, we are pulling and charting the *normalized* growth profile data that, in the BY2011 inventory, was linked (via `t1325`) to category #283. 
 
-## Charting control factors
+```{r QA_normalized_gf_data-chart_annual_growth}
+#
+# Chart the relative growth in these *normalized* growth factors. (Yes, that's redundant!)
+#
+QA_normalized_gf_data %>%
+  chart_annual_growth(
+    base_year = CY(2011),
+    flag_years = CY(1993, 2011, 2030),
+    title = "Residential NG Combustion: Space and Water Heating",
+    subtitle = str_c(
+      "This is the growth profile associated with category #283 in BY2011.",
+      "There is a +9% change from CY2011 to CY2030.",
+      sep = "\n"))
+```
 
-TODO: showcase `chart_annual_quantities_by()`, using control factors for some category where they vary over time.
+### Charting raw growth factors
+
+What if we wanted to chart the raw (un-normalized) growth factors?
+
+First, we look up the ID of the associated profile.
+
+```{r DB_growth_profile_crosswalk}
+#
+# Look up the growth profile that, for BY2011, was associated with category #283.
+# This turns out to be growth profile #555.
+# 
+BY(2011) %>%
+  DB_growth_profile_crosswalk(
+    verbose = TRUE) %>%
+  filter_categories(
+    "#283 Space Heating" = 283)
+```
+
+Then, we let `QA_raw_gf_data` be the associated data.
+
+```{r QA_raw_gf_data, cache = TRUE}
+#
+# Here, we're pulling data for growth profile #555 from DataBank.
+#
+# (Note: Results from `DB_raw_growth_profiles()` are in a compact form, which we have to `unnest()`.)
+#
+QA_raw_gf_data <-
+  BY(2011) %>%
+  DB_raw_growth_profiles(
+    verbose = TRUE) %>%
+  filter(
+    gpf_id == 555) %>%
+  unnest(
+    gpf_raw_data)
+```
+
+Here, we use `chart_annual_quantities()`, instead of `chart_annual_growth()`. This ensures that the numbers *aren't* normalized. If we knew their units, we could label the y-axis. This could be helpful for QA.
+
+```{r QA_raw_gf_data-chart_annual_quantities}
+#
+# Chart the *raw* growth factors.
+#
+QA_raw_gf_data %>%
+  chart_annual_quantities(
+    base_year = CY(2011),
+    flag_years = CY(1993, 2011, 2030),
+    flag_labels = "{round(gf_qty, digits = 4)}",
+    title = "Residential NG Combustion: Space and Water Heating",
+    subtitle = str_c(
+      "DataBank growth profile #555, linked to category #283 for BY2011 (via t1325).",
+      "These \"raw\" growth factors are left as-is by chart_annual_quantities().",
+      sep = "\n"))
+```
+
+Just to demonstrate equivalence, here we use `chart_annual_growth()` with `QA_raw_growth_factor_data`. This should look exactly the same as `chart_annual_growth()` with `QA_normalized_growth_factor_data` --- and it does.
+
+```{r QA_raw_gf_data-chart_annual_growth}
+#
+# Chart the *raw* growth factors.
+#
+QA_raw_gf_data %>%
+  chart_annual_growth(
+    base_year = CY(2011),
+    flag_years = CY(1993, 2011, 2030),
+    title = "Residential NG Combustion: Space and Water Heating",
+    subtitle = str_c(
+      "DataBank growth profile #555, linked to category #283 for BY2011 (via t1325).",
+      "The raw growth factors are automatically normalized by chart_annual_growth().",
+      sep = "\n"))
+```
+
+***
+
+# Charting emission factors
+
+Much like raw growth factors, emission factors can be handled by `chart_annual_quantities()`, if they vary over time. A good example of this is category #749 "Agricultural Land Preparation". Here, `annualize_DB_emission_factors()` does the work of carrying emission factors forward in time, so that for each year, the "most recent" emission factor is applied.
+
+```{r QA_emission_factor_data}
+QA_emission_factor_data <-
+  BY(2011) %>%
+  DB_area_source_emission_factors(
+    verbose = TRUE) %>%
+  filter_categories(
+    "#749 Agricultural Land Prep" = 749) %>%
+  annualize_DB_emission_factors(
+    verbose = TRUE)
+```
+
+In DataBank, emission factors are preserved in units of "pounds per unit of throughput". Below, we use `scale_y_quantity()` to convey this in the chart. (`scale_y_quantity()` also ensures that the axis begins at zero.)
+
+We can also use color to index the pollutant (which, in this case, is only PM).
+
+```{r QA_emission_factor_data-chart_annual_quantities_by}
+QA_emission_factor_data %>%
+  chart_annual_quantities_by(
+    color = pol_abbr,
+    base_year = CY(2011), # mark it visually
+    flag_years = CY(2011),
+    flag_labels = "{signif(ef_qty, 4)} lb/tput",
+    title = "Agricultural Land Preparation",
+    subtitle = "Emission factors pulled from DataBank (t1326).") +
+  scale_y_quantity(
+    "Emission factor (lbs per unit of throughput)")
+```
+
+***
+
+# Charting control factors
+
+Just like the above, we can use `chart_annual_quantities()` to chart control factors that change over time. Again, we use color to index the controlled pollutants, which is helpful, because there are three.
+
+With control factors, it's helpful to use `scale_y_percentage()`, with the upper limit set to 100%.
+
+```{r charting-control-factors}
+QA_control_factor_data <-
+  BY(2011) %>%
+  DB_control_factors(
+    verbose = TRUE) %>%
+  filter_categories(
+    "#288 Domestic Wood Stoves" = 288) %>%
+  annualize_DB_control_factors(
+    verbose = TRUE) 
+  
+QA_control_factor_data %>%
+  chart_annual_quantities_by(
+    color = pol_abbr,
+    base_year = CY(2011), # mark it visually
+    flag_years = CY(2011),
+    flag_labels = "{format_percentage(cf_qty, digits = 0)}",
+    title = "Domestic Wood Stoves",
+    subtitle = "Control factors pulled from DataBank (t1328).") +
+  scale_y_percentage(
+    "Control factor (% uncontrolled)",
+    limits = c(0, 1.00))
+```
+
