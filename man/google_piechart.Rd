@@ -4,8 +4,16 @@
 \alias{google_piechart}
 \title{Google-style piechart}
 \usage{
-google_piechart(input_data, caption, colors = NULL, ..., width = 800,
-  height = 600, plot = TRUE, verbose = FALSE)
+google_piechart(
+  input_data,
+  caption,
+  colors = NULL,
+  ...,
+  width = 800,
+  height = 600,
+  plot = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{input_data}{data frame}

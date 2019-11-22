@@ -5,8 +5,7 @@
 \alias{gg_chart}
 \title{Use ggplot2 to plot some quantity by year}
 \usage{
-gg_annual_chart(chart_data, qty_var = NULL, format = NULL, ...,
-  verbose = TRUE)
+gg_annual_chart(chart_data, qty_var = NULL, format = NULL, ..., verbose = TRUE)
 
 gg_chart(chart_data, ..., verbose = TRUE)
 }

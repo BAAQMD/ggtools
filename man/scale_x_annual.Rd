@@ -4,10 +4,16 @@
 \alias{scale_x_annual}
 \title{Annual scale for CY, RY, PY, etc.}
 \usage{
-scale_x_annual(name = NULL, prefix = "", breaks = seq(1990, 2050, by
-  = 10), labels = function(x) str_extract(x, "[0-9]{4}"),
-  limits = waiver(), expand = expand_scale(add = c(0, 1)), ...,
-  verbose = getOption("verbose"))
+scale_x_annual(
+  name = NULL,
+  prefix = "",
+  breaks = seq(1990, 2050, by = 10),
+  labels = function(x) str_extract(x, "[0-9]{4}"),
+  limits = waiver(),
+  expand = expand_scale(add = c(0, 1)),
+  ...,
+  verbose = getOption("verbose")
+)
 }
 \description{
 Annual scale for CY, RY, PY, etc.

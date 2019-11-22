@@ -4,9 +4,12 @@
 \alias{gg_emission_chart}
 \title{Plot annual emissions}
 \usage{
-gg_emission_chart(chart_data, limits = list(x = NULL, y = c(0, NA)),
+gg_emission_chart(
+  chart_data,
+  limits = list(x = NULL, y = c(0, NA)),
   caption = "DRAFT {format(Sys.Date(), '\%Y-\%m-\%d')}",
-  verbose = TRUE)
+  verbose = TRUE
+)
 }
 \description{
 Plot annual emissions

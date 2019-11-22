@@ -4,10 +4,18 @@
 \alias{google_barchart}
 \title{Google-style barchart}
 \usage{
-google_barchart(input_data, caption = comment(input_data), ...,
-  stacked = TRUE, width = 800, height = 600, h_axis = list(),
-  chart_area = list(left = 100, width = "60\%"), plot = TRUE,
-  verbose = FALSE)
+google_barchart(
+  input_data,
+  caption = comment(input_data),
+  ...,
+  stacked = TRUE,
+  width = 800,
+  height = 600,
+  h_axis = list(),
+  chart_area = list(left = 100, width = "60\%"),
+  plot = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{input_data}{data frame}

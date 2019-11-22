@@ -4,10 +4,20 @@
 \alias{ggvis_stripchart}
 \title{Plot emissions over time, using ggvis}
 \usage{
-ggvis_stripchart(input_data, caption = comment(input_data), x = ~year,
-  y = ~ems_qty, stroke = NULL, fill = NULL, width = 800,
-  height = 400, ..., y_axis_title = NULL, y_axis_format = "s",
-  verbose = FALSE)
+ggvis_stripchart(
+  input_data,
+  caption = comment(input_data),
+  x = ~year,
+  y = ~ems_qty,
+  stroke = NULL,
+  fill = NULL,
+  width = 800,
+  height = 400,
+  ...,
+  y_axis_title = NULL,
+  y_axis_format = "s",
+  verbose = FALSE
+)
 }
 \arguments{
 \item{input_data}{data frame}

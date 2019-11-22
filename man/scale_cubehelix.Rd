@@ -6,8 +6,16 @@
 \alias{scale_color_cubehelix}
 \title{scale_cubehelix}
 \usage{
-scale_cubehelix(aesthetics, ..., start = 0, rot = 0.4, gamma = 1,
-  chrom = 0.8, light = 0.85, dark = 0.15)
+scale_cubehelix(
+  aesthetics,
+  ...,
+  start = 0,
+  rot = 0.4,
+  gamma = 1,
+  chrom = 0.8,
+  light = 0.85,
+  dark = 0.15
+)
 
 scale_fill_cubehelix(...)
 

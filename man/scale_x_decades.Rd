@@ -4,8 +4,12 @@
 \alias{scale_x_decades}
 \title{Scale for Years}
 \usage{
-scale_x_decades(name = "", ..., limits = c(1990, 2050),
-  breaks = seq(1990, 2050, by = 20))
+scale_x_decades(
+  name = "",
+  ...,
+  limits = c(1990, 2050),
+  breaks = seq(1990, 2050, by = 20)
+)
 }
 \arguments{
 \item{name}{(character) axis label}

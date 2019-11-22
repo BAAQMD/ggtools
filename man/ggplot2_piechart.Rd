@@ -4,8 +4,14 @@
 \alias{ggplot2_piechart}
 \title{ggplot2-style piechart}
 \usage{
-ggplot2_piechart(input_data, ..., colors = NULL, digits = 0,
-  sorted = TRUE, theme = NULL)
+ggplot2_piechart(
+  input_data,
+  ...,
+  colors = NULL,
+  digits = 0,
+  sorted = TRUE,
+  theme = NULL
+)
 }
 \arguments{
 \item{input_data}{data frame}
