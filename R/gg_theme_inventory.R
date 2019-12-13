@@ -1,3 +1,7 @@
+#' gg_theme_inventory
+#'
+#' @importFrom ggthemes scale_color_colorblind scale_fill_colorblind
+#'
 #' @export
 gg_theme_inventory <- function (x_axis = NULL, ...) {
 

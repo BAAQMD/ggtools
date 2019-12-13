@@ -3,6 +3,8 @@
 #' @usage chart_annual_quantities_by(data, ...)
 #' @describeIn chart_annual_by Chart an arbitrary annual quantity.
 #'
+#' @importFrom lemon facet_rep_wrap
+#'
 #' @export
 chart_annual_quantities_by <- function (
   data = NULL,
@@ -239,14 +241,6 @@ chart_annual_quantities_by <- function (
 
   chart_fill_scale <-
     scale_fill_tableau()
-
-  #chart_color_scale <-
-  #  ggthemes::scale_color_few(
-  #    palette = "Dark")
-  #
-  # chart_fill_scale <-
-  #  ggthemes::scale_fill_few(
-  #    palette = "Dark")
 
   chart_theme <-
     theme_simple() +
