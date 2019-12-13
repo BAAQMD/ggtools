@@ -6,3 +6,5 @@ doc
 Meta
 .DS_Store
 vignettes/charting_annual_data_cache
+Archive
+R/Archive
