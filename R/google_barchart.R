@@ -33,7 +33,7 @@ google_barchart <- function (
   ems_unit <- unique(input_data$ems_unit)
   stopifnot(length(ems_unit) == 1)
 
-  chart_data <- select(input_data, -year, -ems_unit)
+  chart_data <- dplyr::select(input_data, -year, -ems_unit)
 
   # TODO: make this more robust (what if there is only 1 group var??)
   label_var <- group_vars(chart_data)[[1]] %or% names(chart_data)[[1]]

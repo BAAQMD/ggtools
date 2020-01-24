@@ -9,7 +9,7 @@
 #' @examples
 #' BY2011_NOx_2015 <- BY2011_annual %>% filter(year == 2015, pol_abbr == "NOx")
 #' BY2011_NOx_2015_by_cnty <- BY2011_NOx %>% annual_emissions_by(cnty_abbr)
-#' BY2011_NOx_2015_by_cnty %>% select(cnty_abbr, ems_qty) %>% arrange(ems_qty) %>% ggplot2_piechart()
+#' BY2011_NOx_2015_by_cnty %>% dplyr::select(cnty_abbr, ems_qty) %>% arrange(ems_qty) %>% ggplot2_piechart()
 ggplot2_piechart <- function (input_data, ..., colors = NULL, digits = 0, sorted = TRUE, theme = NULL) {
 
   require(ggplot2)
