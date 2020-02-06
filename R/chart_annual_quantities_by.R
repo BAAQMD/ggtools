@@ -12,10 +12,11 @@ chart_annual_quantities_by <- function (
   mapping = aes(),
   qty_var = NULL,
   chart_y_scale = NULL,
-  geom = "line",
-  year_limits = CY(1990, 2040),
-  year_breaks = seq(1990, 2050, by = 10),
-  year_expand = expand_scale(add = c(5, 5), mult = c(0, 0)),
+  chart_y_unit = NULL,
+  geom = NULL,
+  year_limits = NULL,
+  year_breaks = NULL,
+  year_expand = NULL,
   flag_years = NULL,
   flag_labels = NULL,
   base_year = NULL,
@@ -27,6 +28,24 @@ chart_annual_quantities_by <- function (
 ) {
 
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_quantities_by] ", ...)
+
+  if (is.null(geom)) {
+    geom <- "line"
+  }
+
+  if (is.null(year_limits)) {
+    year_limits <- CY(1990, 2040)
+  }
+
+  if (is.null(year_breaks)) {
+    year_breaks <- seq(1990, 2050, by = 10)
+  }
+
+  if (is.null(year_expand)) {
+    year_expand <- expand_scale(
+      add = c(1, 1),
+      mult = c(0.1, 0.1))
+  }
 
   msg("WARNING: experimental --- do not use in production!")
 
@@ -308,7 +327,7 @@ chart_annual_quantities_by <- function (
           data = flag_data),
         ggrepel::geom_label_repel(
           aes(
-            label = glue::glue(flag_labels)),
+            label = glue::glue(flag_labels, chart_y_unit = chart_y_unit)),
           fill = "white",
           segment.alpha = 0,
           force = 1,

@@ -8,14 +8,15 @@ chart_annual_emissions_by <- function (
   data = NULL,
   ...,
   mapping = aes(),
-  qty_var = "ems_qty",
-  geom = NULL,
-  year_limits = CY(1990, 2040),
-  year_breaks = seq(1990, 2050, by = 10),
-  year_expand = expand_scale(add = c(5, 5), mult = c(0, 0)),
-  flag_years = NULL,
-  flag_labels = "{signif(ems_qty, 4)} {ems_unit}",
   base_year = NULL,
+  qty_var = "ems_qty",
+  chart_y_scale = NULL,
+  geom = NULL,
+  year_limits = NULL,
+  year_breaks = NULL,
+  year_expand = NULL,
+  flag_years = NULL,
+  flag_labels = "{format_SI(ems_qty, digits = 4)} {chart_y_unit}",
   title = NULL,
   subtitle = NULL,
   caption = NULL,
@@ -38,15 +39,22 @@ chart_annual_emissions_by <- function (
 
   if (is.null(data)) {
 
-    chart_y_unit <- "tons/yr"
+    chart_y_unit <- "tput/yr"
     chart_y_scale <- NULL
 
   } else {
 
+    unit_var <-
+      str_replace(
+        qty_var,
+        "_qty$",
+        "_unit")
+
     chart_y_unit <-
       data %>%
-      pull_distinct(
-        ems_unit) %>%
+      pull(
+        unit_var) %>%
+      unique() %>%
       ensurer::ensure(
         length(.) == 1)
 
@@ -58,26 +66,16 @@ chart_annual_emissions_by <- function (
 
   }
 
-  #
-  # Automatically facet by pollutant.
-  #
-
-  chart_faceting <-
-    lemon::facet_rep_wrap(
-      ~ pol_abbr,
-      ncol = 1,
-      scales = "free_y",
-      repeat.tick.labels = TRUE)
-
   chart_object <-
     data %>%
     chart_annual_quantities_by(
-      pol_abbr,
       ...,
+      pol_abbr,
       mapping = mapping,
-      geom = geom,
       qty_var = qty_var,
+      geom = geom,
       chart_y_scale = chart_y_scale,
+      chart_y_unit = chart_y_unit,
       year_limits = year_limits,
       year_breaks = year_breaks,
       year_expand = year_expand,
@@ -87,8 +85,15 @@ chart_annual_emissions_by <- function (
       title = title,
       subtitle = subtitle,
       caption = caption,
-      verbose = verbose) +
-    chart_faceting
+      verbose = verbose)
+
+  #
+  # Automatically facet by pollutant.
+  #
+  chart_object <-
+    facet_by_pollutant(
+      chart_object,
+      verbose = verbose)
 
   return(chart_object)
 

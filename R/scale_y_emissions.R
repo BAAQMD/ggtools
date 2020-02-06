@@ -1,3 +1,5 @@
+#' scale_y_emissions
+#'
 #' @export
 scale_y_emissions <- function (
   name = c("tons/yr", "tons/day"),
