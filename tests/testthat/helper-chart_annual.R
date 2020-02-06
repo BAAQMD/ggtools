@@ -21,3 +21,17 @@ test_cf_data <-
 
 test_ems_data <-
   read_rds(here::here("tests", "testthat", "helper-chart_annual-test_ems_data.Rds"))
+
+test_tput_data <-
+  test_ems_data %>%
+  mutate(
+    tput_qty = ems_qty / pi,
+    tput_unit = "fabricated")
+
+test_tput_data %>%
+  filter(
+    pol_abbr == "NOx") %>%
+  filter_years(
+    CY(2011)) %>%
+  pull_total(
+    tput_qty)

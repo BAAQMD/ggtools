@@ -1,7 +1,7 @@
 Package: ggtools
 Type: Package
 Title: Quickly Plot Inventoried Emissions and Throughputs
-Version: 2020.01.24
+Version: 2020.02.06
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
 Description: Simple helper functions for leveraging ggplot2.
@@ -29,13 +29,16 @@ Suggests:
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 Collate: 
     'chart_annual_by.R'
-    'chart_annual_quantities_by.R'
+    'chart_annual_emission_factors_by.R'
     'chart_annual_emissions_by.R'
     'chart_annual_growth_by.R'
+    'chart_annual_quantities_by.R'
+    'chart_annual_throughputs_by.R'
+    'facet_by_pollutant.R'
     'gg_annual_chart.R'
     'gg_chart.R'
     'gg_emission_chart.R'
@@ -52,13 +55,17 @@ Collate:
     'google_piechart.R'
     'humanize_id_vars.R'
     'scale_cubehelix.R'
+    'scale_quantity.R'
     'scale_x_annual.R'
     'scale_x_decades.R'
+    'scale_x_quantity.R'
     'scale_xy.R'
+    'scale_xy_quantity.R'
     'scale_y_SI_units.R'
     'scale_y_emissions.R'
     'scale_y_percentage.R'
     'scale_y_quantity.R'
+    'scale_y_throughputs.R'
     'theme_simple.R'
     'write_png.R'
 VignetteBuilder: knitr
