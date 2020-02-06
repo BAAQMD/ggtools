@@ -12,10 +12,11 @@ chart_annual_growth_by <- function (
   mapping = aes(),
   base_year,
   qty_var = NULL,
-  geom = "line",
-  year_limits = CY(1990, 2040),
-  year_breaks = seq(1990, 2050, by = 10),
-  year_expand = expand_scale(add = c(5, 5), mult = c(0, 0)),
+  chart_y_scale = NULL,
+  geom = NULL,
+  year_limits = NULL,
+  year_breaks = NULL,
+  year_expand = NULL,
   flag_years = NULL,
   flag_labels = "{format_percent_change(gf_qty, digits = 1)}",
   title = NULL,
@@ -103,11 +104,17 @@ chart_annual_growth_by <- function (
   #
   # Let `chart_y_scale` be in terms of percentages.
   #
-  chart_y_scale <-
-    scale_y_percentage(
-      NULL, # #glue::glue("{qty_var} (normalized to {base_year})"),
-      limits = c(0, NA),
-      expand = expand_scale(mult = c(0, 0.3)))
+  if (is.null(chart_y_scale)) {
+
+    chart_y_scale <-
+      scale_y_percentage(
+        NULL, # #glue::glue("{qty_var} (normalized to {base_year})"),
+        limits = c(0, NA),
+        breaks = seq(0, 10, by = 0.2),
+        expand = expand_scale(mult = c(0, 0.3)),
+        sec.axis = dup_axis())
+
+  }
 
   chart_object <-
     normalized_data %>%
@@ -117,6 +124,7 @@ chart_annual_growth_by <- function (
       qty_var = "gf_qty",
       geom = geom,
       chart_y_scale = chart_y_scale,
+      chart_y_unit = NULL,
       year_limits = year_limits,
       year_breaks = year_breaks,
       year_expand = year_expand,
@@ -126,7 +134,13 @@ chart_annual_growth_by <- function (
       title = title,
       subtitle = subtitle,
       caption = caption,
-      verbose = verbose)
+      verbose = verbose) +
+    geom_hline(
+      yintercept = 1.000,
+      color = "black",
+      alpha = I(0.3),
+      size = 0.5,
+      linetype = "dotted")
 
   return(chart_object)
 
