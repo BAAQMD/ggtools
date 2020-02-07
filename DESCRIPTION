@@ -33,6 +33,7 @@ RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
 Collate: 
     'chart_annual_by.R'
+    'chart_annual_control_factors_by.R'
     'chart_annual_emission_factors_by.R'
     'chart_annual_emissions_by.R'
     'chart_annual_growth_by.R'
