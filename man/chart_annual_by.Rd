@@ -12,7 +12,7 @@
 \alias{chart_annual_throughputs_by}
 \title{Charting Annual Data}
 \usage{
-chart_annual_emissions_by(data, ...)
+chart_annual_emission_factors_by(data, ...)
 
 chart_annual_emissions_by(data, ...)
 

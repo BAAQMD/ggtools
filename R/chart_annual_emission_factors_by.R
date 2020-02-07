@@ -1,6 +1,6 @@
-#' chart_annual_emissions_by
+#' chart_annual_emission_factors_by
 #'
-#' @usage chart_annual_emissions_by(data, ...)
+#' @usage chart_annual_emission_factors_by(data, ...)
 #' @describeIn chart_annual_by Chart annual emissions.
 #'
 #' @export
@@ -10,9 +10,9 @@ chart_annual_emission_factors_by <- function (
   mapping = aes(),
   qty_var = "ef_qty",
   geom = NULL,
-  year_limits = CY(1990, 2040),
-  year_breaks = seq(1990, 2050, by = 10),
-  year_expand = expand_scale(add = c(5, 5), mult = c(0, 0)),
+  year_limits = NULL,
+  year_breaks = NULL,
+  year_expand = NULL,
   flag_years = NULL,
   flag_labels = "{signif(ef_qty, 4)} {ef_unit}",
   base_year = NULL,
@@ -51,7 +51,7 @@ chart_annual_emission_factors_by <- function (
         length(.) == 1)
 
     chart_y_scale <-
-      scale_y_emissions(
+      scale_y_quantity(
         chart_y_unit,
         labels = format_SI,
         expand = expand_scale(mult = c(0, 0.3)))

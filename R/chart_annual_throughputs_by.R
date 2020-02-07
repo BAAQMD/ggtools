@@ -1,6 +1,7 @@
 #' chart_annual_throughputs_by
 #'
 #' @usage chart_annual_throughputs_by(data, ...)
+#'
 #' @describeIn chart_annual_by Chart annual throughputs.
 #'
 #' @export
