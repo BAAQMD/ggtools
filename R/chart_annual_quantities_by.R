@@ -29,10 +29,6 @@ chart_annual_quantities_by <- function (
 
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_quantities_by] ", ...)
 
-  if (is.null(geom)) {
-    geom <- "line"
-  }
-
   if (is.null(year_limits)) {
     year_limits <- CY(1990, 2040)
   }
@@ -180,31 +176,6 @@ chart_annual_quantities_by <- function (
   }
 
   #
-  # Assemble `chart_layers` --- a list of geoms.
-  #
-
-  if (is.null(data)) {
-
-    chart_layers <- NULL
-
-  } else {
-
-    if (is.null(geom)) {
-      msg("geom is defaulting to: ")
-      geom <- "line"
-    }
-
-    chart_geom <-
-      get(str_c("geom_", geom))
-
-    chart_layers <-
-      list(
-        chart_geom(
-          aes(group = series)))
-
-  }
-
-  #
   # Assemble `chart_aes`.
   #
   # - if `linetype = ` was supplied, then add an aesthetic for that.
@@ -219,52 +190,78 @@ chart_annual_quantities_by <- function (
 
   } else {
 
-    chart_aes <- local({
+    auto_mappings <-
+      c(y = unname(qty_var))
 
-      auto_mappings <-
-        c(y = unname(qty_var))
+    if ("linetype" %in% names(by_vars)) {
+      auto_mappings <- c(
+        auto_mappings,
+        linetype = by_vars[["linetype"]])
+    }
 
-      if ("linetype" %in% names(by_vars)) {
+    if ("color" %in% names(by_vars)) {
+
+      auto_mappings <- c(
+        auto_mappings,
+        color = by_vars[["color"]])
+
+      if ("fill" %not_in% names(by_vars)) {
         auto_mappings <- c(
           auto_mappings,
-          linetype = by_vars[["linetype"]])
+          fill = by_vars[["color"]])
       }
 
-      if ("color" %in% names(by_vars)) {
+    }
 
-        auto_mappings <- c(
-          auto_mappings,
-          color = by_vars[["color"]])
+    if ("fill" %in% names(by_vars)) {
 
-        if ("fill" %not_in% names(by_vars)) {
+      msg("filling by ", by_vars[["fill"]])
 
-          auto_mappings <- c(
-            auto_mappings,
-            fill = by_vars[["color"]])
+      auto_mappings <- c(
+        auto_mappings,
+        fill = by_vars[["fill"]])
 
-        }
-
+      if (is.null(geom)) {
+        msg("setting geom to area")
+        geom <- "area"
       }
 
-      chart_aes <-
-        do.call(
-          aes_string,
-          as.list(auto_mappings))
+    }
 
-    })
+    chart_aes <-
+      do.call(
+        aes_string,
+        as.list(auto_mappings))
 
   }
 
-  chart_color_scale <-
-    scale_color_tableau()
+  #
+  # Assemble `chart_layers` --- a list of geoms.
+  #
 
-  chart_fill_scale <-
-    scale_fill_tableau()
+  if (is.null(data)) {
 
-  chart_theme <-
-    theme_simple() +
-    theme(
-      plot.subtitle = element_text(size = rel(0.9)))
+    chart_layers <- NULL
+
+  } else {
+
+    msg("geom is: ", geom)
+
+    if (is.null(geom)) {
+      msg("setting geom to line")
+      geom <- "line"
+    }
+
+    chart_geom <-
+      get(str_c("geom_", geom))
+
+    chart_layers <-
+      list(
+        chart_geom(
+          aes(group = series)))
+
+  }
+
 
   #
   # Assemble `chart_description`.
@@ -288,6 +285,25 @@ chart_annual_quantities_by <- function (
         caption = caption)
 
   })
+
+  #
+  # Scales for color and fill.
+  #
+
+  chart_color_scale <-
+    scale_color_tableau()
+
+  chart_fill_scale <-
+    scale_fill_tableau()
+
+  #
+  # Basic chart theme.
+  #
+
+  chart_theme <-
+    theme_simple() +
+    theme(
+      plot.subtitle = element_text(size = rel(0.9)))
 
   chart_object <-
     ggplot(
@@ -356,7 +372,11 @@ chart_annual_quantities_by <- function (
     base_year_layers <-
       base_year_shape %>%
       map(
-        ~ geom_point(shape = ., size = 4, data = base_year_data))
+        ~ geom_point(
+          shape = .,
+          size = 4,
+          position = if_else(geom == "area", "stack", "identity"),
+          data = base_year_data))
 
     chart_object <-
       chart_object +
