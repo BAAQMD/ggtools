@@ -1,21 +1,21 @@
-#' chart_annual_emission_factors_by
+#' chart_annual_control_factors_by
 #'
-#' @usage chart_annual_emission_factors_by(data, ...)
-#' @describeIn chart_annual_by Chart annual emission factors.
+#' @usage chart_annual_control_factors_by(data, ...)
+#' @describeIn chart_annual_by Chart annual control factors.
 #'
 #' @export
-chart_annual_emission_factors_by <- function (
+chart_annual_control_factors_by <- function (
   data = NULL,
   ...,
   mapping = aes(),
-  qty_var = "ef_qty",
+  qty_var = "cf_qty",
   chart_y_scale = NULL,
   geom = NULL,
   year_limits = NULL,
   year_breaks = NULL,
   year_expand = NULL,
   flag_years = NULL,
-  flag_labels = "{signif(ef_qty, 4)} {chart_y_unit}",
+  flag_labels = "{format_percent(cf_qty, digits = 2)}",
   base_year = NULL,
   title = NULL,
   subtitle = NULL,
@@ -24,7 +24,7 @@ chart_annual_emission_factors_by <- function (
 ) {
 
   msg <- function (...) if(isTRUE(verbose)) {
-    message("[chart_annual_emission_factors_by] ", ...)
+    message("[chart_annual_control_factors_by] ", ...)
   }
 
   #
@@ -36,28 +36,18 @@ chart_annual_emission_factors_by <- function (
   }
 
   #
-  # Let `chart_y_scale` be a scale specific to emission factors.
+  # Let `chart_y_scale` be in terms of percentages. Because these are fractions,
+  # they should never be more than 100%, or less than 0%.
   #
-
-  if (is.null(data)) {
-
-    chart_y_unit <- "lb/tput"
-    chart_y_scale <- NULL
-
-  } else {
-
-    chart_y_unit <-
-      data %>%
-      pull_distinct(
-        ef_unit) %>%
-      ensurer::ensure(
-        length(.) == 1)
+  if (is.null(chart_y_scale)) {
 
     chart_y_scale <-
-      scale_y_quantity(
-        chart_y_unit,
-        labels = format_SI,
-        expand = expand_scale(mult = c(0, 0.3)))
+      scale_y_percentage(
+        "% uncontrolled",
+        limits = c(0, NA),
+        breaks = seq(0, 1, by = 0.1),
+        expand = expand_scale(mult = c(0, 0)),
+        sec.axis = dup_axis())
 
   }
 
@@ -85,10 +75,10 @@ chart_annual_emission_factors_by <- function (
       caption = caption,
       verbose = verbose)
 
-  chart_object <-
-    facet_by_pollutant(
-      chart_object,
-      verbose = verbose)
+  # chart_object <-
+  #   facet_by_pollutant(
+  #     chart_object,
+  #     verbose = verbose)
 
   return(chart_object)
 
@@ -99,5 +89,5 @@ chart_annual_emission_factors_by <- function (
 #' @noRd
 #'
 #' @export
-chart_annual_emission_factors <-
-  chart_annual_emission_factors_by
+chart_annual_control_factors <-
+  chart_annual_control_factors_by

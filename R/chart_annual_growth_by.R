@@ -11,6 +11,7 @@ chart_annual_growth_by <- function (
   ...,
   mapping = aes(),
   base_year,
+  ref_year,
   qty_var = NULL,
   chart_y_scale = NULL,
   geom = NULL,
@@ -26,6 +27,14 @@ chart_annual_growth_by <- function (
 ) {
 
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_growth_by] ", ...)
+
+  if (missing(ref_year)) {
+    if (missing(base_year)) {
+      stop("[chart_annual_growth_by] either `base_year` or `ref_year` is required.")
+    } else {
+      ref_year <- CY(elide_year(base_year))
+    }
+  }
 
   #
   # If `year` isn't present, try reshaping the data.
