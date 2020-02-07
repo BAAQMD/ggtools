@@ -3,11 +3,6 @@
 #' @usage chart_annual_throughputs_by(data, ...)
 #' @describeIn chart_annual_by Chart annual throughputs.
 #'
-#' @details `chart_annual_throughputs_by(...)` tries to avoid double-counting.
-#'   If there are variables beginning with `pol_` or `ems_` in your data, it
-#'   will first issue a warning. Then, it will try to replace `data` with
-#'   something very much like `distinct(data, year, ..., tput_qty, tput_unit)`.
-#'
 #' @export
 chart_annual_throughputs_by <- function (
   data = NULL,

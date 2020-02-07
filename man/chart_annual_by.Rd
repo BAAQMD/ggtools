@@ -53,23 +53,29 @@ chart_annual_throughputs_by(data, ...)
 \description{
 \strong{Please don't use in production code yet! Thank you!} The pollutant-faceting feature of \code{chart_annual_emissions_by()}, in particular, may change.
 
-\strong{\code{chart_annual_quantities_by()}} is the workhorse function. It
-will auto-detect the first variable in \code{data} that ends with \verb{_qty}, unless
-you supply an explicit \code{qty_var}. It relies on a default
-\code{\link[=scale_x_annual]{scale_x_annual()}}, which you can tweak by supplying \code{year_breaks}, \code{year_limits}, and/or \code{year_expand}. You can use it to chart arbitrary annual quantities, like \code{cf_qty} (control factors), \code{ef_qty} (emission factors), or \code{fee_qty} (fees).
+\strong{\code{chart_annual_quantities_by()}} is the workhorse function. It will
+auto-detect the first variable in \code{data} that ends with \verb{_qty}, unless you
+supply an explicit \code{qty_var}. It relies on a default \code{\link[=scale_x_annual]{scale_x_annual()}},
+which you can tweak by supplying \code{year_breaks}, \code{year_limits}, and/or
+\code{year_expand}. You can use it to chart arbitrary annual quantities, like
+\code{cf_qty} (control factors), \code{ef_qty} (emission factors), or \code{fee_qty} (fees).
 
-\strong{\code{chart_annual_emissions_by()}} is a specialized variant. It expects to find \code{ems_qty} and \code{ems_unit} in \code{data}.
-It relies on \code{scale_y_emissions()} for the y-axis, and displays both quantities and units in flagged values. It also facets the resulting chart by pollutant, relying on \code{pol_abbr} by default.
+\strong{\code{chart_annual_emissions_by()}} is a specialized variant. It expects to
+find \code{ems_qty} and \code{ems_unit} in \code{data}. It relies on \code{scale_y_emissions()}
+for the y-axis, and displays both quantities and units in flagged values. It
+also facets the resulting chart by pollutant, relying on \code{pol_abbr} by
+default.
 
-\strong{\code{chart_annual_growth_by()}} is a specialized variant. Like \code{chart_annual_quantities_by()}, it will try to find a
-variable ending with \verb{_qty} in your \code{data}, unless you supply an explicit \code{qty_var}.
-It relies on \code{\link[=scale_y_percentage]{scale_y_percentage()}} for the y-axis, and formats flagged values using \code{\link[=format_percent_change]{format_percent_change()}}.
-}
-\details{
-\code{chart_annual_throughputs_by(...)} tries to avoid double-counting.
-If there are variables beginning with \code{pol_} or \code{ems_} in your data, it
-will first issue a warning. Then, it will try to replace \code{data} with
-something very much like \code{distinct(data, year, ..., tput_qty, tput_unit)}.
+\strong{\code{chart_annual_throughputs_by(...)}} tries to avoid double-counting. If
+there are variables beginning with \code{pol_} or \code{ems_} in your data, it will
+first issue a warning. Then, it will try to replace \code{data} with something
+very much like \code{distinct(data, year, ..., tput_qty, tput_unit)}.
+
+\strong{\code{chart_annual_growth_by()}} is a specialized variant. Like
+\code{chart_annual_quantities_by()}, it will try to find a variable ending with
+\verb{_qty} in your \code{data}, unless you supply an explicit \code{qty_var}. It relies on
+\code{\link[=scale_y_percentage]{scale_y_percentage()}} for the y-axis, and formats flagged values using
+\code{\link[=format_percent_change]{format_percent_change()}}.
 }
 \section{Functions}{
 \itemize{
