@@ -3,6 +3,11 @@
 #' @usage chart_annual_throughputs_by(data, ...)
 #' @describeIn chart_annual_by Chart annual throughputs.
 #'
+#' @details `chart_annual_throughputs_by(...)` tries to avoid double-counting.
+#'   If there are variables beginning with `pol_` or `ems_` in your data, it
+#'   will first issue a warning. Then, it will try to replace `data` with
+#'   something very much like `distinct(data, year, ..., tput_qty, tput_unit)`.
+#'
 #' @export
 chart_annual_throughputs_by <- function (
   data = NULL,
@@ -30,12 +35,42 @@ chart_annual_throughputs_by <- function (
       names(data),
       dplyr::matches("pol_"))
 
-  if (length(pol_vars) > 0) {
+  ems_vars <-
+    tidyselect::vars_select(
+      names(data),
+      dplyr::matches("ems_"))
+
+  if (length(pol_vars) > 0 || length(ems_vars) > 0) {
+
     warn_msg <- glue::glue(
-      "Found possible pollutant variables in your data: {str_csv(pol_vars)}.",
+      "Found these variables in your data: {str_csv(union(pol_vars, ems_vars))}.",
       "You might be double-counting throughputs!",
-      .sep = "\n")
+      "Trying to be helpful via distinct(...).",
+      .sep = " ")
+
     warning(warn_msg)
+
+    key_vars <-
+      unname(
+        tidyselect::vars_select(
+        names(data),
+        year,
+        ...))
+
+    msg("key_vars is: ", strtools::str_csv(names(key_vars)))
+
+    #
+    # Try to be helpful ...
+    #
+    data <-
+      data %>%
+      select(
+        starts_with("tput_"), # FIXME: should be based on `qty_var`
+        !!key_vars) %>%
+      distinct()
+
+    print(data)
+
   }
 
   #

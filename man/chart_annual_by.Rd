@@ -65,6 +65,12 @@ It relies on \code{scale_y_emissions()} for the y-axis, and displays both quanti
 variable ending with \verb{_qty} in your \code{data}, unless you supply an explicit \code{qty_var}.
 It relies on \code{\link[=scale_y_percentage]{scale_y_percentage()}} for the y-axis, and formats flagged values using \code{\link[=format_percent_change]{format_percent_change()}}.
 }
+\details{
+\code{chart_annual_throughputs_by(...)} tries to avoid double-counting.
+If there are variables beginning with \code{pol_} or \code{ems_} in your data, it
+will first issue a warning. Then, it will try to replace \code{data} with
+something very much like \code{distinct(data, year, ..., tput_qty, tput_unit)}.
+}
 \section{Functions}{
 \itemize{
 \item \code{chart_annual_emission_factors_by}: Chart annual emissions.
