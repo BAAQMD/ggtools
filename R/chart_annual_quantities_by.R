@@ -14,6 +14,9 @@ chart_annual_quantities_by <- function (
   chart_y_scale = NULL,
   chart_y_unit = NULL,
   geom = NULL,
+  facet_rows = NULL,
+  facet_cols = NULL,
+  facet_scales = "fixed",
   year_limits = NULL,
   year_breaks = NULL,
   year_expand = NULL,
@@ -73,14 +76,62 @@ chart_annual_quantities_by <- function (
   }
 
   #
-  # Let `by_vars` be the `...`.
+  # Let `by_vars` be the `...`, plus whatever is used for faceting.
   #
   by_vars <-
-    tidyselect::vars_select(
-      names(data),
-      ...)
+      tidyselect::vars_select(
+        names(data),
+        ...)
+
+  if (!is.null(facet_rows) || !is.null(facet_cols)) {
+
+    facet_vars <-
+      c(facet_rows, facet_cols) %>%
+      set_names()
+
+    by_vars <-
+      c(by_vars, facet_vars)
+
+  }
 
   msg("by_vars is: ", strtools::str_csv(names(by_vars)))
+
+  #
+  # Optional: faceting.
+  #
+
+  if (is.null(facet_rows) && is.null(facet_cols)) {
+
+    chart_faceting <-
+      facet_null()
+
+  } else if (is.null(facet_cols)) {
+
+    chart_faceting <-
+      lemon::facet_rep_wrap(
+        as.formula(str_c("~ ", facet_rows)),
+        ncol = 1,
+        scales = facet_scales,
+        repeat.tick.labels = TRUE)
+
+  } else if (is.null(facet_rows)) {
+
+    chart_faceting <-
+      lemon::facet_rep_wrap(
+        as.formula(str_c("~ ", facet_cols)),
+        nrow = 1,
+        scales = facet_scales,
+        repeat.tick.labels = TRUE)
+
+  } else {
+
+    chart_faceting <-
+      lemon::facet_rep_grid(
+        as.formula(str_c(facet_rows, " ~ ", facet_cols)),
+        scales = facet_scales,
+        repeat.tick.labels = TRUE)
+
+  }
 
   #
   # Create `chart_x_scale`.
@@ -317,7 +368,8 @@ chart_annual_quantities_by <- function (
     chart_color_scale +
     chart_fill_scale +
     chart_layers +
-    chart_description
+    chart_description +
+    chart_faceting
 
   if (!is.null(flag_years) && !is.null(data)) {
 

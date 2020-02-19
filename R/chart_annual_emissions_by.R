@@ -12,6 +12,9 @@ chart_annual_emissions_by <- function (
   qty_var = "ems_qty",
   chart_y_scale = NULL,
   geom = NULL,
+  facet_rows = "pol_abbr",
+  facet_cols = NULL,
+  facet_scales = "free_y",
   year_limits = NULL,
   year_breaks = NULL,
   year_expand = NULL,
@@ -74,6 +77,9 @@ chart_annual_emissions_by <- function (
       mapping = mapping,
       qty_var = qty_var,
       geom = geom,
+      facet_rows = facet_rows,
+      facet_cols = facet_cols,
+      facet_scales = facet_scales,
       chart_y_scale = chart_y_scale,
       chart_y_unit = chart_y_unit,
       year_limits = year_limits,
@@ -85,14 +91,6 @@ chart_annual_emissions_by <- function (
       title = title,
       subtitle = subtitle,
       caption = caption,
-      verbose = verbose)
-
-  #
-  # Automatically facet by pollutant.
-  #
-  chart_object <-
-    facet_by_pollutant(
-      chart_object,
       verbose = verbose)
 
   return(chart_object)
