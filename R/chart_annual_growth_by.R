@@ -88,15 +88,25 @@ chart_annual_growth_by <- function (
   }
 
   #
-  # Let `by_vars` be the `...`.
+  # Let `by_vars` be the `...`, plus whatever is used for faceting.
   #
-
   by_vars <-
     tidyselect::vars_select(
       names(data),
       ...)
 
-  msg("by_vars is: ", strtools::str_csv(by_vars))
+  if (!is.null(facet_rows) || !is.null(facet_cols)) {
+
+    facet_vars <-
+      c(facet_rows, facet_cols) %>%
+      set_names()
+
+    by_vars <-
+      c(by_vars, facet_vars)
+
+  }
+
+  msg("by_vars is: ", strtools::str_csv(names(by_vars)))
 
   #
   # Apply `normalize()` (defined above) to each group of data,
