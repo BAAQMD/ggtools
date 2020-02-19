@@ -16,7 +16,7 @@ test_that("chart_annual_throughputs_by, single pollutant", {
 test_that("chart_annual_throughputs_by, multi-pollutant (should issue warning)", {
 
   expect_warning(
-    test_ems_data %>%
+    test_tput_data %>%
       filter(
         pol_abbr %in% c("NOx", "PM2.5")) %>%
       chart_annual_throughputs_by(
