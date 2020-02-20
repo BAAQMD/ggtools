@@ -4,7 +4,7 @@
 \alias{scale_y_percentage}
 \title{scale_y_percentage}
 \usage{
-scale_y_percentage(..., digits = 0, expand = c(0, 0))
+scale_y_percentage(..., digits = 0, expand = c(0, 0), reverse = FALSE)
 }
 \description{
 scale_y_percentage
