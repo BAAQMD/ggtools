@@ -130,11 +130,10 @@ chart_annual_growth_by <- function (
 
     chart_y_scale <-
       scale_y_percentage(
-        NULL, # #glue::glue("{qty_var} (normalized to {base_year})"),
+        "% growth", # #glue::glue("{qty_var} (normalized to {base_year})"),
         limits = c(0, NA),
         #breaks = seq(0, 10, by = 0.2),
-        expand = expand_scale(mult = c(0, 0.3)),
-        sec.axis = dup_axis())
+        expand = expand_scale(mult = c(0, 0.3)))
 
   }
 
