@@ -50,7 +50,7 @@ chart_annual_control_factors_by <- function (
         "% controlled",
         reverse = reverse,
         limits = c(0, 1.00),
-        breaks = seq(0, 1, by = 0.1),
+        breaks = seq(0, 1, by = 0.2),
         expand = expand_scale(mult = c(0, 0)))
 
   }
