@@ -20,6 +20,7 @@ chart_annual_control_factors_by <- function (
   flag_years = NULL,
   flag_labels = "{format_percentage(1 - cf_qty, digits = 1)}",
   base_year = NULL,
+  reverse = TRUE,
   title = NULL,
   subtitle = NULL,
   caption = NULL,
@@ -47,7 +48,7 @@ chart_annual_control_factors_by <- function (
     chart_y_scale <-
       scale_y_percentage(
         "% controlled",
-        reverse = TRUE,
+        reverse = reverse,
         limits = c(0, 1.00),
         breaks = seq(0, 1, by = 0.1),
         expand = expand_scale(mult = c(0, 0)))
