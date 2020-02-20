@@ -1,7 +1,7 @@
 Package: ggtools
 Type: Package
 Title: Quickly Plot Inventoried Emissions and Throughputs
-Version: 2020.02.19
+Version: 2020.02.20
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
 Description: Simple helper functions for leveraging ggplot2.
