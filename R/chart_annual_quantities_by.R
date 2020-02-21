@@ -109,7 +109,7 @@ chart_annual_quantities_by <- function (
 
     chart_faceting <-
       lemon::facet_rep_wrap(
-        as.formula(str_c("~ ", facet_rows)),
+        as.formula(str_c("~ ", str_c(facet_rows, collapse = " + "))),
         ncol = 1,
         scales = facet_scales,
         repeat.tick.labels = TRUE)
@@ -118,7 +118,7 @@ chart_annual_quantities_by <- function (
 
     chart_faceting <-
       lemon::facet_rep_wrap(
-        as.formula(str_c("~ ", facet_cols)),
+        as.formula(str_c("~ ", str_c(facet_cols, collapse = " + "))),
         nrow = 1,
         scales = facet_scales,
         repeat.tick.labels = TRUE)
