@@ -50,3 +50,22 @@ test_that("chart_annual_emissions_by (fill by cnty_abbr)", {
       base_year = CY(2011))
 
 })
+
+test_that("chart_annual_emissions_by (mix of NA and finite values)", {
+
+  BY2011_test_data <-
+    BY2011::BY2011_annual_emission_data %>%
+    filter(
+      cat_id %in% c(1930:1931)) %>%
+    filter(
+      pol_abbr == "TOG") %>%
+    sum_annual_emissions_by(
+      cat_id,
+      pol_abbr)
+
+  BY2011_test_data %>%
+    chart_annual_emissions_by(
+      fill = cat_id,
+      base_year = CY(2011))
+
+})

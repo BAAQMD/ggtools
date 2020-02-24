@@ -211,9 +211,21 @@ chart_annual_quantities_by <- function (
         annual_quantities_by(
           !!grp_vars) %>%
         unite(
-          series,
+          grp_id,
           !!grp_vars,
-          remove = FALSE)
+          remove = FALSE) %>%
+        group_by_at(
+          all_of(grp_vars)) %>%
+        mutate(
+          year_break = if_else(
+            elide_year(year) - lag(elide_year(year)) >= 2,
+            true = TRUE, false = FALSE, missing = FALSE)) %>%
+        mutate(
+          series = str_c(
+            grp_id,
+            cumsum(year_break),
+            sep = "-")) %>%
+        ungroup()
 
     } else {
 
