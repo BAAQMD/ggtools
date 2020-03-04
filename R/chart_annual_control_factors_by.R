@@ -11,7 +11,7 @@ chart_annual_control_factors_by <- function (
   qty_var = "cf_qty",
   chart_y_scale = NULL,
   geom = NULL,
-  facet_rows = "pol_abbr",
+  facet_rows = "category",
   facet_cols = NULL,
   facet_scales = "fixed",
   year_limits = NULL,
