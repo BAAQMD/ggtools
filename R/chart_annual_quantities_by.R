@@ -33,17 +33,20 @@ chart_annual_quantities_by <- function (
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_quantities_by] ", ...)
 
   if (is.null(year_limits)) {
-    year_limits <- CY(1990, 2040)
+    year_limits <-
+      range(elide_year(pull(data, year)))
   }
 
   if (is.null(year_breaks)) {
-    year_breaks <- seq(1990, 2050, by = 10)
+    year_breaks <-
+      seq(1990, 2050, by = 10)
   }
 
   if (is.null(year_expand)) {
-    year_expand <- expand_scale(
-      add = c(1, 1),
-      mult = c(0.1, 0.1))
+    year_expand <-
+      ggplot2::expand_scale(
+        add = c(1, 1),
+        mult = c(1.5/50, 1.5/50))
   }
 
   msg("WARNING: experimental --- do not use in production!")
@@ -79,9 +82,9 @@ chart_annual_quantities_by <- function (
   # Let `by_vars` be the `...`, plus whatever is used for faceting.
   #
   by_vars <-
-      tidyselect::vars_select(
-        names(data),
-        ...)
+    tidyselect::vars_select(
+      names(data),
+      ...)
 
   if (!is.null(facet_rows) || !is.null(facet_cols)) {
 

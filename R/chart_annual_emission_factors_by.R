@@ -77,7 +77,6 @@ chart_annual_emission_factors_by <- function (
       facet_rows = facet_rows,
       facet_cols = facet_cols,
       facet_scales = facet_scales,
-      facet_scales = facet_scales,
       qty_var = qty_var,
       chart_y_scale = chart_y_scale,
       chart_y_unit = chart_y_unit,
