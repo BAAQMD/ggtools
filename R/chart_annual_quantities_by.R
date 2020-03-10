@@ -12,6 +12,7 @@ chart_annual_quantities_by <- function (
   mapping = aes(),
   qty_var = NULL,
   chart_y_scale = NULL,
+  chart_y_labels = NULL,
   chart_y_unit = NULL,
   geom = NULL,
   facet_rows = NULL,
@@ -178,8 +179,15 @@ chart_annual_quantities_by <- function (
   #
   if (is.null(chart_y_scale)) {
 
+    if (is.null(chart_y_labels)) {
+      msg("defaulting: labels = format_SI")
+      chart_y_labels <- format_SI
+    }
+
+    msg("defaulting: chart_y_scale = scale_y_quantity")
     chart_y_scale <-
-      scale_y_quantity()
+      scale_y_quantity(
+        labels = chart_y_labels)
 
   }
 

@@ -12,6 +12,8 @@ chart_annual_throughputs_by <- function (
   base_year = NULL,
   qty_var = "tput_qty",
   chart_y_scale = NULL,
+  chart_y_labels = NULL,
+  chart_y_unit = NULL,
   geom = NULL,
   facet_rows = NULL,
   facet_cols = NULL,
@@ -52,9 +54,9 @@ chart_annual_throughputs_by <- function (
     key_vars <-
       unname(
         tidyselect::vars_select(
-        names(data),
-        year,
-        ...))
+          names(data),
+          year,
+          ...))
 
     msg("key_vars is: ", strtools::str_csv(names(key_vars)))
 
@@ -84,7 +86,7 @@ chart_annual_throughputs_by <- function (
 
   if (is.null(data)) {
 
-    chart_y_unit <- "ton/yr"
+    chart_y_unit <- "throughput"
     chart_y_scale <- NULL
 
   } else {
@@ -103,11 +105,14 @@ chart_annual_throughputs_by <- function (
       ensurer::ensure(
         length(.) == 1)
 
-    chart_y_scale <-
-      scale_y_throughputs(
-        chart_y_unit,
-        labels = format_SI,
-        expand = expand_scale(mult = c(0, 0.3)))
+    if (is.null(chart_y_scale)) {
+      chart_y_scale <-
+        scale_y_throughputs(
+          chart_y_unit,
+          labels = chart_y_labels,
+          expand = expand_scale(mult = c(0, 0.3)),
+          verbose = verbose)
+    }
 
   }
 
@@ -122,6 +127,7 @@ chart_annual_throughputs_by <- function (
       facet_cols = facet_cols,
       facet_scales = facet_scales,
       chart_y_scale = chart_y_scale,
+      chart_y_labels = chart_y_labels,
       chart_y_unit = chart_y_unit,
       year_limits = year_limits,
       year_breaks = year_breaks,

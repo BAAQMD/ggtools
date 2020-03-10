@@ -26,7 +26,7 @@ test_tput_data <-
   test_ems_data %>%
   mutate(
     tput_qty = ems_qty / pi,
-    tput_unit = "fabricated")
+    tput_unit = "million ft^3")
 
 test_tput_data %>%
   filter(

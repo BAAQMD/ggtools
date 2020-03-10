@@ -13,6 +13,20 @@ test_that("chart_annual_emissions_by (NOx and PM2.5)", {
 
 })
 
+test_that("chart_annual_emissions_by (less than 1 ton/yr", {
+
+  require(BY2011)
+
+  BY2011_annual_emission_data %>%
+    filter(
+      cat_id == 314) %>% # incineration (point)
+    filter(
+      pol_abbr == "N2O") %>%
+    chart_annual_emissions(
+      verbose = TRUE)
+
+})
+
 test_that("chart_annual_emissions_by (color by cnty_abbr)", {
 
   test_ems_data %>%

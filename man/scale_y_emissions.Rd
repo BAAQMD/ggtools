@@ -6,7 +6,7 @@
 \usage{
 scale_y_emissions(
   name = c("tons/yr", "tons/day"),
-  labels = waiver(),
+  labels = NULL,
   expand = expand_scale(mult = c(0, 0.1)),
   limits = c(0, NA),
   ...,

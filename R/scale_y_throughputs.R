@@ -3,7 +3,7 @@
 #' @export
 scale_y_throughputs <- function (
   name,
-  labels = waiver(),
+  labels = NULL,
   expand = expand_scale(mult = c(0, 0.1)),
   limits = c(0, NA),
   ...,
@@ -11,6 +11,17 @@ scale_y_throughputs <- function (
 ) {
 
   msg <- function (...) if(isTRUE(verbose)) message("[scale_y_throughputs] ", ...)
+
+  if (is.null(labels)) {
+
+    msg("labels defaulting to format_SI(fixed = TRUE, engineering = TRUE)")
+
+    labels <-
+      purrr::partial(
+        strtools::format_SI,
+        fixed = TRUE,
+        engineering = TRUE)
+  }
 
   if (length(name) == 2) {
 

@@ -11,6 +11,7 @@ chart_annual_emission_factors_by <- function (
   base_year = NULL,
   qty_var = "ef_qty",
   chart_y_scale = NULL,
+  chart_y_labels = NULL,
   geom = NULL,
   facet_rows = NULL,
   facet_cols = NULL,
@@ -59,7 +60,7 @@ chart_annual_emission_factors_by <- function (
     chart_y_scale <-
       scale_y_quantity(
         chart_y_unit,
-        labels = format_SI,
+        labels = chart_y_labels,
         expand = expand_scale(mult = c(0, 0.3)))
 
   }

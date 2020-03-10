@@ -11,6 +11,7 @@ chart_annual_emissions_by <- function (
   base_year = NULL,
   qty_var = "ems_qty",
   chart_y_scale = NULL,
+  chart_y_labels = NULL,
   geom = NULL,
   facet_rows = "pol_abbr",
   facet_cols = NULL,
@@ -42,7 +43,7 @@ chart_annual_emissions_by <- function (
 
   if (is.null(data)) {
 
-    chart_y_unit <- "tput/yr"
+    chart_y_unit <- "emissions"
     chart_y_scale <- NULL
 
   } else {
@@ -61,11 +62,14 @@ chart_annual_emissions_by <- function (
       ensurer::ensure(
         length(.) == 1)
 
-    chart_y_scale <-
-      scale_y_emissions(
-        chart_y_unit,
-        labels = format_SI,
-        expand = expand_scale(mult = c(0, 0.3)))
+    if (is.null(chart_y_scale)) {
+      chart_y_scale <-
+        scale_y_emissions(
+          name = chart_y_unit,
+          labels = chart_y_labels,
+          expand = expand_scale(mult = c(0, 0.3)),
+          verbose = verbose)
+    }
 
   }
 
@@ -81,6 +85,7 @@ chart_annual_emissions_by <- function (
       facet_cols = facet_cols,
       facet_scales = facet_scales,
       chart_y_scale = chart_y_scale,
+      chart_y_labels = chart_y_labels,
       chart_y_unit = chart_y_unit,
       year_limits = year_limits,
       year_breaks = year_breaks,
