@@ -216,7 +216,7 @@ chart_annual_quantities_by <- function (
       humanize_id_vars(
         verbose = verbose) %>%
       annual_quantities_by(
-        !!grp_vars)
+        all_of(unique(c(grp_vars, by_vars))))
 
     if (length(grp_vars) > 0) {
 
