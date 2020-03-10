@@ -5,6 +5,10 @@ test_that("chart_annual_control_factors_by (NOx and PM2.5)", {
   test_cf_data %>%
     filter(
       pol_abbr %in% c("NOx", "PM2.5")) %>%
+    filter_categories(
+      pull_distinct(
+        test_cf_data,
+        cat_id)) %>%
     chart_annual_control_factors_by(
       color = pol_abbr,
       flag_years = CY(2011),
