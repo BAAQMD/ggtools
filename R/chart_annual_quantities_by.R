@@ -203,24 +203,27 @@ chart_annual_quantities_by <- function (
     grouped_data <-
       data %>%
       group_by_at(
-        vars(by_vars),
+        all_of(by_vars),
         .add = TRUE)
 
     grp_vars <-
       grouped_data %>%
       dplyr::group_vars()
 
+    aggregated_data <-
+      grouped_data %>%
+      ungroup() %>%
+      humanize_id_vars(
+        verbose = verbose) %>%
+      annual_quantities_by(
+        !!grp_vars)
+
     if (length(grp_vars) > 0) {
 
       msg("grouping by: ", str_csv(grp_vars))
 
       chart_data <-
-        grouped_data %>%
-        ungroup() %>%
-        humanize_id_vars(
-          verbose = verbose) %>%
-        annual_quantities_by(
-          !!grp_vars) %>%
+        aggregated_data %>%
         unite(
           grp_id,
           !!grp_vars,
@@ -242,12 +245,14 @@ chart_annual_quantities_by <- function (
 
       chart_data <-
         mutate(
-          data,
+          aggregated_data,
           series = 1)
 
     }
 
   }
+
+  msg("nrow(chart_data) = ", nrow(chart_data))
 
   #
   # Assemble `chart_aes`.
