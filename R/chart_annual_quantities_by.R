@@ -162,6 +162,12 @@ chart_annual_quantities_by <- function (
 
     stopifnot(length(year_prefix) == 1)
 
+    if (is.na(year_prefix)) {
+      warn_msg("[chart_annual_quantities_by] there's no prefix on `year` (CY, RY, FY, etc.)")
+      warning(warn_msg)
+      year_prefix <- ""
+    }
+
     chart_x_scale <-
       scale_x_annual(
         prefix = year_prefix,
