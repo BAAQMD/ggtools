@@ -1,6 +1,6 @@
 context("chart_annual_growth")
 
-test_data <-
+test_growth_data <-
   tibble(
     cat_id = c(283, 284),
     gpf_id = c(
@@ -49,22 +49,34 @@ test_data <-
     category = factor(c("Space Heating", "Water Heating"))
   )
 
-test_that("test_ems_data, by cat_id", {
-
-  test_data %>%
-    chart_annual_growth(
-      base_year = CY(2015),
-      verbose = TRUE)
-
+test_that("test_growth_data", {
+  expect_silent(
+    test_growth_data %>%
+      chart_annual_growth(
+        base_year = CY(2015),
+        verbose = FALSE))
 })
 
-test_that("test_ems_data (spread by year), by cat_id", {
+test_that("test_growth_data, gathered by year", {
+  expect_silent(
+    test_growth_data %>%
+      gather(
+        year,
+        gf_qty,
+        starts_with("CY")) %>%
+      chart_annual_growth(
+        base_year = CY(2015),
+        verbose = FALSE))
+})
 
-  test_data %>%
-    chart_annual_growth_by(
-      color = cat_id,
-      flag_years = CY(2015),
-      base_year = CY(2015),
-      verbose = TRUE)
+test_that("test_ems_data, color = cnty_abbr", {
+
+  expect_silent(
+    test_ems_data %>%
+      chart_annual_growth_by(
+        color = cnty_abbr,
+        flag_years = CY(2015),
+        base_year = CY(2015),
+        verbose = FALSE))
 
 })
