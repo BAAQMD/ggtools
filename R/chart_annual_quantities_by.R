@@ -98,7 +98,8 @@ chart_annual_quantities_by <- function (
 
   }
 
-  msg("by_vars is: ", strtools::str_csv(names(by_vars)))
+  msg("by_vars is: ", str_csv(names(by_vars)))
+  msg("names(by_vars) is: ", str_csv(names(by_vars)))
 
   #
   # Optional: faceting.
@@ -206,15 +207,20 @@ chart_annual_quantities_by <- function (
 
   } else {
 
+    msg("grouping by `by_vars`: ", str_csv(by_vars))
+
     grouped_data <-
       data %>%
       group_by_at(
-        all_of(by_vars),
+        all_of(unname(by_vars)),
         .add = TRUE)
 
     grp_vars <-
       grouped_data %>%
       dplyr::group_vars()
+
+    msg("grp_vars is: ", str_csv(grp_vars))
+    msg("names(grp_vars) is: ", str_csv(names(grp_vars)))
 
     aggregated_data <-
       grouped_data %>%
@@ -222,7 +228,8 @@ chart_annual_quantities_by <- function (
       humanize_id_vars(
         verbose = verbose) %>%
       annual_quantities_by(
-        all_of(unique(c(grp_vars, by_vars))))
+        all_of(grp_vars))
+        #all_of(unique(c(grp_vars, by_vars))))
 
     if (length(grp_vars) > 0) {
 

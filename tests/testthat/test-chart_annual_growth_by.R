@@ -74,7 +74,7 @@ test_that("test_ems_data, color = cnty_abbr", {
   expect_silent(
     test_ems_data %>%
       chart_annual_growth_by(
-        color = cnty_abbr,
+        cnty_abbr,
         flag_years = CY(2015),
         base_year = CY(2015),
         verbose = FALSE))
