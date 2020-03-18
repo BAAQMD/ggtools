@@ -23,6 +23,7 @@ chart_annual_quantities_by <- function (
   year_expand = NULL,
   flag_years = NULL,
   flag_labels = NULL,
+  flag_unique = NULL,
   base_year = NULL,
   base_year_shape = 3,
   title = NULL,
@@ -229,7 +230,7 @@ chart_annual_quantities_by <- function (
         verbose = verbose) %>%
       annual_quantities_by(
         all_of(grp_vars))
-        #all_of(unique(c(grp_vars, by_vars))))
+    #all_of(unique(c(grp_vars, by_vars))))
 
     if (length(grp_vars) > 0) {
 
@@ -285,12 +286,19 @@ chart_annual_quantities_by <- function (
     auto_mappings <-
       c(y = unname(qty_var))
 
+
+    #
+    # Linetype (dashed, dotted, etc.)
+    #
     if ("linetype" %in% names(by_vars)) {
       auto_mappings <- c(
         auto_mappings,
         linetype = by_vars[["linetype"]])
     }
 
+    #
+    # Color.
+    #
     if ("color" %in% names(by_vars)) {
 
       auto_mappings <- c(
@@ -305,6 +313,11 @@ chart_annual_quantities_by <- function (
 
     }
 
+    #
+    # Treat `fill` like `color`.
+    #
+    # If `fill` is present, but `geom` is not, then set `geom` to "area".
+    #
     if ("fill" %in% names(by_vars)) {
 
       msg("filling by ", by_vars[["fill"]])
@@ -317,6 +330,30 @@ chart_annual_quantities_by <- function (
         msg("setting geom to area")
         geom <- "area"
       }
+
+    }
+
+    #
+    # Alpha, aka opacity.
+    #
+    alpha_var <-
+      intersect(
+        names(by_vars),
+        c("alpha", "opacity"))
+
+    if (isTRUE(length(alpha_var) > 0)) {
+
+      auto_mappings <- c(
+        auto_mappings,
+        alpha = by_vars[[alpha_var]])
+
+      alpha_set <-
+        levels(pull(chart_data, by_vars[[alpha_var]]))
+
+      alpha_levels <-
+        set_names(
+          (1 / seq_along(alpha_set)) ^ 1.2, # 1.2 acts as gamma
+          alpha_set)
 
     }
 
@@ -388,6 +425,18 @@ chart_annual_quantities_by <- function (
   chart_fill_scale <-
     scale_fill_tableau()
 
+  chart_alpha_scale <-
+    scale_alpha_manual(
+      values = alpha_levels)
+
+  chart_scales <-
+    list(
+      chart_x_scale,
+      chart_y_scale,
+      chart_color_scale,
+      chart_fill_scale,
+      chart_alpha_scale)
+
   #
   # Basic chart theme.
   #
@@ -404,10 +453,7 @@ chart_annual_quantities_by <- function (
     aes(x = yeartools::elide_year(year)) +
     chart_aes +
     chart_theme +
-    chart_x_scale +
-    chart_y_scale +
-    chart_color_scale +
-    chart_fill_scale +
+    chart_scales +
     chart_layers +
     chart_description +
     chart_faceting
@@ -422,7 +468,26 @@ chart_annual_quantities_by <- function (
         series) %>%
       distinct() %>%
       filter(
-        elide_year(year) %in% elide_year(flag_years))
+        elide_year(year) %in% elide_year(flag_years)) %>%
+      mutate(
+        label = as.character(
+          glue::glue(
+            flag_labels,
+            chart_y_unit = chart_y_unit)))
+
+    if (isTRUE(flag_unique)) {
+      flag_data <-
+        flag_data %>%
+        group_by_at(
+          vars(year, label)) %>%
+        summarize_at(
+          vars(everything()),
+          first) %>%
+        ungroup()
+    }
+
+    print(flag_data)
+    print(deparse::deparsec(flag_data))
 
     flag_nudge_y <-
       flag_data %>%
@@ -436,7 +501,7 @@ chart_annual_quantities_by <- function (
           data = flag_data),
         ggrepel::geom_label_repel(
           aes(
-            label = glue::glue(flag_labels, chart_y_unit = chart_y_unit)),
+            label = label),
           fill = "white",
           segment.alpha = 0,
           force = 1,
