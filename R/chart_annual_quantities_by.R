@@ -425,9 +425,14 @@ chart_annual_quantities_by <- function (
   chart_fill_scale <-
     scale_fill_tableau()
 
-  chart_alpha_scale <-
-    scale_alpha_manual(
-      values = alpha_levels)
+  if (exists("alpha_levels")) {
+    chart_alpha_scale <-
+      scale_alpha_manual(
+        values = alpha_levels)
+  } else {
+    chart_alpha_scale <-
+      scale_alpha()
+  }
 
   chart_scales <-
     list(
@@ -485,9 +490,6 @@ chart_annual_quantities_by <- function (
           first) %>%
         ungroup()
     }
-
-    print(flag_data)
-    print(deparse::deparsec(flag_data))
 
     flag_nudge_y <-
       flag_data %>%
