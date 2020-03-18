@@ -7,7 +7,7 @@
 scale_y_throughputs(
   name,
   labels = NULL,
-  expand = expand_scale(mult = c(0, 0.1)),
+  expand = ggplot2::expansion(mult = c(0, 0.1)),
   limits = c(0, NA),
   ...,
   verbose = getOption("verbose")

@@ -36,7 +36,7 @@ chart_annual_throughputs_by(data, ...)
 
 \item{year_breaks}{like \code{seq(1990, 2050, by = 10)}}
 
-\item{year_expand}{see \code{\link[ggplot2:expand_scale]{ggplot2::expand_scale()}}}
+\item{year_expand}{see \code{\link[ggplot2:expansion]{ggplot2::expansion()}}}
 
 \item{flag_years}{if provided, will display actual values at these years.}
 
