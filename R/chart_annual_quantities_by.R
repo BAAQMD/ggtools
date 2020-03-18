@@ -465,8 +465,6 @@ chart_annual_quantities_by <- function (
 
   if (!is.null(flag_years) && !is.null(data)) {
 
-    flag_digits <- 4
-
     flag_data <-
       chart_data %>%
       drop_vars(

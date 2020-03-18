@@ -26,8 +26,8 @@ scale_quantity <- function (
   msg <- function (...) if(isTRUE(verbose)) message("[scale_quantity] ", ...)
 
   if (is.null(labels)) {
-    msg("labels is NULL; using format ", format)
-    labels <- partial(format_qty, format = format, unit = unit)
+    msg("labels defauting to format_qty")
+    labels <- format_qty
   }
 
   dimension <- match.arg(dimension)

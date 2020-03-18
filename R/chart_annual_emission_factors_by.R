@@ -20,7 +20,7 @@ chart_annual_emission_factors_by <- function (
   year_breaks = NULL,
   year_expand = NULL,
   flag_years = NULL,
-  flag_labels = "{signif(ef_qty, 4)} {chart_y_unit}",
+  flag_labels = "{format_qty(ef_qty)} {chart_y_unit}",
   flag_unique = NULL,
   title = NULL,
   subtitle = NULL,

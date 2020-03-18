@@ -80,3 +80,4 @@ test_that("test_ems_data, color = cnty_abbr", {
         verbose = FALSE))
 
 })
+
