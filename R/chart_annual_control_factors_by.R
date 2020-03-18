@@ -52,7 +52,7 @@ chart_annual_control_factors_by <- function (
         reverse = reverse,
         limits = c(0, 1.00),
         breaks = seq(0, 1, by = 0.2),
-        expand = expand_scale(mult = c(0, 0)))
+        expand = ggplot2::expansion(mult = c(0, 0)))
 
   }
 

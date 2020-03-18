@@ -68,7 +68,7 @@ chart_annual_emissions_by <- function (
         scale_y_emissions(
           name = chart_y_unit,
           labels = chart_y_labels,
-          expand = expand_scale(mult = c(0, 0.3)),
+          expand = ggplot2::expansion(mult = c(0, 0.3)),
           verbose = verbose)
     }
 

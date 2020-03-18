@@ -134,7 +134,7 @@ chart_annual_growth_by <- function (
         "% growth", # #glue::glue("{qty_var} (normalized to {base_year})"),
         limits = c(0, NA),
         #breaks = seq(0, 10, by = 0.2),
-        expand = expand_scale(mult = c(0, 0.3)))
+        expand = ggplot2::expansion(mult = c(0, 0.3)))
 
   }
 

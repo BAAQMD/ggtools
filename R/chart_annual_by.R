@@ -34,7 +34,7 @@
 #' @param geom "line", "point", "col", or "area"
 #' @param year_limits like `CY(1990, 2040)`
 #' @param year_breaks like `seq(1990, 2050, by = 10)`
-#' @param year_expand see [ggplot2::expand_scale()]
+#' @param year_expand see [ggplot2::expansion()]
 #' @param base_year required for `chart_annual_growth()`; optional otherwise. Displays a mark at the corresponding year.
 #' @param flag_years if provided, will display actual values at these years.
 #' @param flag_labels controls the information displayed in flags. See

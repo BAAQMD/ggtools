@@ -62,7 +62,7 @@ chart_annual_emission_factors_by <- function (
       scale_y_quantity(
         chart_y_unit,
         labels = chart_y_labels,
-        expand = expand_scale(mult = c(0, 0.3)))
+        expand = ggplot2::expansion(mult = c(0, 0.3)))
 
   }
 

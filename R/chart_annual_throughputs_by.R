@@ -111,7 +111,7 @@ chart_annual_throughputs_by <- function (
         scale_y_throughputs(
           chart_y_unit,
           labels = chart_y_labels,
-          expand = expand_scale(mult = c(0, 0.3)),
+          expand = ggplot2::expansion(mult = c(0, 0.3)),
           verbose = verbose)
     }
 

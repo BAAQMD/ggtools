@@ -46,7 +46,7 @@ chart_annual_quantities_by <- function (
 
   if (is.null(year_expand)) {
     year_expand <-
-      ggplot2::expand_scale(
+      ggplot2::expansion(
         add = c(1, 1),
         mult = c(1.5/50, 1.5/50))
   }

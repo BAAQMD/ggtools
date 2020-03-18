@@ -14,7 +14,7 @@
 scale_quantity <- function (
   name = NULL,
   dimension = c("x", "y"),
-  expand = expand_scale(mult = c(0, 0.1)),
+  expand = ggplot2::expansion(mult = c(0, 0.1)),
   limits = c(0, NA),
   unit = NULL,
   labels = NULL,
