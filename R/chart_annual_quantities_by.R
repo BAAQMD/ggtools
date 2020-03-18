@@ -188,8 +188,8 @@ chart_annual_quantities_by <- function (
   if (is.null(chart_y_scale)) {
 
     if (is.null(chart_y_labels)) {
-      msg("defaulting: labels = format_SI")
-      chart_y_labels <- format_SI
+      msg("defaulting: labels = format_qty")
+      chart_y_labels <- format_qty
     }
 
     msg("defaulting: chart_y_scale = scale_y_quantity")

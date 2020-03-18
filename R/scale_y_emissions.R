@@ -14,11 +14,11 @@ scale_y_emissions <- function (
 
   if (is.null(labels)) {
 
-    msg("labels defaulting to format_SI(fixed = TRUE, engineering = TRUE)")
+    msg("labels defaulting to format_qty(fixed = TRUE, engineering = TRUE)")
 
     labels <-
       purrr::partial(
-        strtools::format_SI,
+        strtools::format_qty,
         fixed = TRUE,
         engineering = TRUE)
   }

@@ -20,7 +20,7 @@ chart_annual_emissions_by <- function (
   year_breaks = NULL,
   year_expand = NULL,
   flag_years = NULL,
-  flag_labels = "{format_SI(ems_qty, digits = 4)} {chart_y_unit}",
+  flag_labels = "{format_qty(ems_qty, digits = 4)} {chart_y_unit}",
   flag_unique = NULL,
   title = NULL,
   subtitle = NULL,
