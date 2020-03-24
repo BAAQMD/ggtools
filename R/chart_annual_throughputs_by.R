@@ -77,8 +77,8 @@ chart_annual_throughputs_by <- function (
   # If `year` isn't present, try reshaping the data.
   #
   if (!is.null(data) && ("year" %not_in% names(data))) {
-    data <- gather_years(data, "tput_qty", verbose = verbose)
     qty_var <- "tput_qty"
+    data <- gather_years(data, qty_var, verbose = verbose)
   }
 
   #

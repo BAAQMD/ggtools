@@ -44,8 +44,8 @@ chart_annual_growth_by <- function (
   # If `year` isn't present, try reshaping the data.
   #
   if (!is.null(data) && ("year" %not_in% names(data))) {
-    data <- gather_years(data, gf_qty, verbose = verbose)
     qty_var <- "gf_qty"
+    data <- gather_years(data, !!qty_var, verbose = verbose)
   }
 
   #
@@ -61,9 +61,9 @@ chart_annual_growth_by <- function (
   if (!is.null(data) && is.null(qty_var)) {
 
     qty_var <-
-      vartools::find_var(
+      vartools::find_qty_var(
         data,
-        suffix = "_qty")
+        verbose = verbose)
 
   }
 
@@ -116,7 +116,7 @@ chart_annual_growth_by <- function (
 
   normalized_data <-
     data %>%
-    annual_quantities_by(   # FIXME: explicitly supply value var (now "gf_qty")
+    sum_annual_quantities_by(   # FIXME: explicitly supply value var (now "gf_qty")
       by_vars,
       verbose = verbose) %>%
     group_by_at(

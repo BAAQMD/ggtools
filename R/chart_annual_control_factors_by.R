@@ -36,8 +36,8 @@ chart_annual_control_factors_by <- function (
   # If `year` isn't present, try reshaping the data.
   #
   if (!is.null(data) && ("year" %not_in% names(data))) {
-    data <- gather_years(data, "ef_qty", verbose = verbose)
     qty_var <- "ef_qty"
+    data <- gather_years(data, qty_var, verbose = verbose)
   }
 
   #

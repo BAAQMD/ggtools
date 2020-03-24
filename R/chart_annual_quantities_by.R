@@ -60,9 +60,9 @@ chart_annual_quantities_by <- function (
   if (is.null(qty_var)) {
 
     qty_var <-
-      vartools::find_var(
+      vartools::find_qty_var(
         data,
-        suffix = "_qty")
+        verbose = verbose)
 
   }
 

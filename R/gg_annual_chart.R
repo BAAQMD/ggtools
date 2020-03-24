@@ -17,8 +17,14 @@ gg_annual_chart <- function (chart_data, qty_var = NULL, format = NULL, ..., ver
   }
 
   if (is.null(qty_var)) {
-    qty_var <- find_var(chart_data, suffix = "_qty")
-    msg("qty_var is ", qty_var)
+
+    qty_var <-
+      vartools::find_qty_var(
+        chart_data,
+        verbose = verbose)
+
+    msg("qty_var is: ", qty_var)
+
   }
 
   unit_var <-
