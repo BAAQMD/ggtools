@@ -11,10 +11,8 @@ test_that("test_growth_data", {
 test_that("test_growth_data, gathered by year", {
   expect_silent(
     test_growth_data %>%
-      gather(
-        year,
-        gf_qty,
-        starts_with("CY")) %>%
+      gather_years(
+        gf_qty) %>%
       chart_annual_growth(
         base_year = CY(2015),
         verbose = FALSE))
@@ -27,6 +25,7 @@ test_that("test_ems_data, color = cnty_abbr", {
       chart_annual_growth_by(
         cnty_abbr,
         flag_years = CY(2015),
+        flag_unique = TRUE,
         base_year = CY(2015),
         verbose = FALSE))
 
