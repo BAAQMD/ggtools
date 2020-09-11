@@ -7,11 +7,11 @@
 scale_y_SI_units(..., limits = c(0, NA), labels = format_SI)
 }
 \arguments{
-\item{...}{passed to \code{\link[ggplot2:scale_y_continuous]{ggplot2::scale_y_continuous()}}}
+\item{...}{passed to \code{\link[ggplot2:scale_continuous]{ggplot2::scale_y_continuous()}}}
 
 \item{limits}{(numeric) axis range}
 
-\item{labels}{see \code{\link[ggplot2:scale_y_continuous]{ggplot2::scale_y_continuous()}}}
+\item{labels}{see \code{\link[ggplot2:scale_continuous]{ggplot2::scale_y_continuous()}}}
 }
 \description{
 So that every chart can have a simple Y scale fixed at 0 and with SI units.
