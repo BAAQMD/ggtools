@@ -16,7 +16,7 @@ scale_x_decades(
 
 \item{limits}{(numeric) axis range}
 
-\item{breaks}{(numeric) see \code{\link[ggplot2:scale_x_continuous]{ggplot2::scale_x_continuous()}}}
+\item{breaks}{(numeric) see \code{\link[ggplot2:scale_continuous]{ggplot2::scale_x_continuous()}}}
 }
 \description{
 Scale for Years

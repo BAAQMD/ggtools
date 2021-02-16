@@ -2,9 +2,15 @@
 % Please edit documentation in R/scale_x_log10.R
 \name{scale_x_log10}
 \alias{scale_x_log10}
-\title{log10 scale together with axis ticks}
+\title{log10 scale together with axis ticks and breaks}
 \usage{
-scale_x_log10(..., labels = format_log10)
+scale_x_log10(
+  ...,
+  limits,
+  labels = ggtools::label_log10,
+  expand = expansion(mult = c(0.01, 0.01)),
+  verbose = getOption("verbose", default = FALSE)
+)
 }
 \arguments{
 \item{...}{passed to \code{\link[ggplot2:scale_continuous]{ggplot2::scale_x_log10()}}}
@@ -12,7 +18,7 @@ scale_x_log10(..., labels = format_log10)
 \item{labels}{function}
 }
 \description{
-log10 scale together with axis ticks
+log10 scale together with axis ticks and breaks
 }
 \seealso{
 \code{\link[=scale_xy_log10]{scale_xy_log10()}}
