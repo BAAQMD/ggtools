@@ -1,5 +1,5 @@
 scale_xy <- function (
-  name = waiver(),
+  name = NULL,
   ...,
   scale = "continuous",
   ratio = 1
@@ -8,12 +8,12 @@ scale_xy <- function (
   x_scale <- get(str_c("scale_x_", scale))
   y_scale <- get(str_c("scale_y_", scale))
 
-  if (is.character(name)) {
-    x_name <- name[1]
-    y_name <- name[length(name)]
-  } else {
+  if (is.null(name)) {
     x_name <- waiver()
     y_name <- waiver()
+  } else {
+    x_name <- name[1]
+    y_name <- name[length(name)]
   }
 
   # can be safely added to a ggplot-style chain of `+`s
@@ -22,6 +22,8 @@ scale_xy <- function (
   if (is.numeric(ratio)) {
     lst <- append(lst, coord_fixed(ratio = ratio))
   }
+
+  return(lst)
 
 }
 
@@ -46,4 +48,27 @@ scale_xy_discrete <- function (
     name,
     ...,
     scale = "discrete")
+}
+
+#' @export
+scale_xy_log10 <- function (
+  ...,
+  labels = label_log10,
+  expand = ggplot2::expansion(0, 0),
+  logticks = TRUE
+) {
+
+  lst <-
+    scale_xy(
+      ...,
+      labels = labels,
+      expand = expand,
+      scale = "log10")
+
+  if (isTRUE(logticks)) {
+    lst <- append(lst, annotation_logticks())
+  }
+
+  return(lst)
+
 }
