@@ -31,7 +31,7 @@ chart_annual_emissions_by <- function (
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_emissions_by] ", ...)
 
   #
-  # If `year` isn't present, try reshaping the data.
+  # If `year` isn't present, try reshaping the data from wide to long.
   #
   if (!is.null(data) && ("year" %not_in% names(data))) {
     qty_var <- "ems_qty"
@@ -59,9 +59,7 @@ chart_annual_emissions_by <- function (
       data %>%
       pull(
         unit_var) %>%
-      unique() %>%
-      ensurer::ensure(
-        length(.) == 1)
+      unique()
 
     if (is.null(chart_y_scale)) {
       chart_y_scale <-
