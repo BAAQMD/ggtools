@@ -1,21 +1,26 @@
 Package: ggtools
 Type: Package
-Title: Quickly Plot Inventoried Emissions and Throughputs
-Version: 2020.07.29
+Title: Helpers for Charting, Mapping, and Plotting Air Quality and Related Data
+Version: 2021.02.16
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
-Description: Simple helper functions for leveraging ggplot2.
+Description: Extends the usefulness of ggplot2.
 Depends: 
   funtools,
   strtools,
   tbltools,
   qtytools,
   yeartools,
-  lltools,
   ggplot2,
   ggthemes,
   ggrepel,
   gghighlight
+Remotes:
+  github::BAAQMD/funtools,
+  github::BAAQMD/strtools,
+  github::BAAQMD/tbltools,
+  github::BAAQMD/qtytools,
+  github::BAAQMD/yeartools
 Imports:
   lemon
 Reverse-depends: 
@@ -23,13 +28,15 @@ Reverse-depends:
 Suggests:
   googleVis,
   ggvis,
+  lltools,
   chroma,
+  ggforce,
   viridis,
   testthat (>= 2.1.0)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Collate: 
     'chart_annual_by.R'
@@ -55,10 +62,14 @@ Collate:
     'google_barchart.R'
     'google_piechart.R'
     'humanize_id_vars.R'
+    'label_log10.R'
+    'scale2palette.R'
     'scale_cubehelix.R'
     'scale_quantity.R'
+    'scale_sepia.R'
     'scale_x_annual.R'
     'scale_x_decades.R'
+    'scale_x_log10.R'
     'scale_x_quantity.R'
     'scale_xy.R'
     'scale_xy_quantity.R'
@@ -67,6 +78,7 @@ Collate:
     'scale_y_percentage.R'
     'scale_y_quantity.R'
     'scale_y_throughputs.R'
+    'size_as_mm.R'
     'theme_simple.R'
     'write_png.R'
 VignetteBuilder: knitr
