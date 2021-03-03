@@ -36,7 +36,7 @@ chart_annual_quantities_by <- function (
 
   if (is.null(year_limits)) {
     year_limits <-
-      range(elide_year(pull(data, year)))
+      range(as.numeric(elide_year(pull(data, year))))
   }
 
   if (is.null(year_breaks)) {
@@ -75,8 +75,7 @@ chart_annual_quantities_by <- function (
   if (!is.null(year_limits)) {
 
     year_limits <-
-      yeartools::elide_year(
-        year_limits)
+      as.numeric(elide_year(year_limits))
 
   }
 
@@ -246,7 +245,7 @@ chart_annual_quantities_by <- function (
           all_of(grp_vars)) %>%
         mutate(
           year_break = if_else(
-            elide_year(year) - lag(elide_year(year)) >= 2,
+            as.numeric(elide_year(year)) - lag(as.numeric(elide_year(year))) >= 2,
             true = TRUE, false = FALSE, missing = FALSE)) %>%
         mutate(
           series = str_c(
@@ -455,7 +454,7 @@ chart_annual_quantities_by <- function (
     ggplot(
       data = chart_data,
       mapping = mapping) +
-    aes(x = yeartools::elide_year(year)) +
+    aes(x = as.numeric(yeartools::elide_year(year))) +
     chart_aes +
     chart_theme +
     chart_scales +
