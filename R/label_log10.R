@@ -1,22 +1,29 @@
 #' label_log10
 #'
-#' @param x
-#' @param TeX
+#' @param x numeric vector
+#' @param digits integer
+#' @param TeX logical
+#' @param output passed to [latex2exp::TeX()]
 #'
 #' @importFrom latex2exp TeX
-#' @importFrom stringr str_c
+#' @importFrom stringr str_c str_replace_all
+#' @importFrom tidyr replace_na
+#' @importFrom purrr map
 #'
-#' @return
 #' @export
-#'
-label_log10 <- function (x, digits = 1, TeX = TRUE, output = "expression") {
+label_log10 <- function (
+  x,
+  digits = 1,
+  TeX = TRUE,
+  output = "expression"
+) {
 
   str_replace_expr <- function (expr, pattern, replacement) {
     deparsed <- purrr::map(expr, deparse)
-    f <- function (x) str_replace_all(x, pattern, replacement)
+    f <- function (x) stringr::str_replace_all(x, pattern, replacement)
     replaced <- purrr::map(deparsed, f)
     collapsed <- purrr::map(replaced, str_c, collapse = "")
-    formalized <- map(collapsed, str2lang) # turn strings back into calls
+    formalized <- purrr::map(collapsed, str2lang) # turn strings back into calls
     return(as.expression(formalized))
   }
 

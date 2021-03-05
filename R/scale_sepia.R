@@ -54,14 +54,14 @@ scale_sepia <- function (
 
 }
 
-#' @describeIn scale_sepia
+#' @describeIn scale_sepia fill scale
 #' @export
 scale_fill_sepia <-
   purrr::partial(
     scale_sepia,
     aesthetics = "fill")
 
-#' @describeIn scale_sepia
+#' @describeIn scale_sepia color scale
 #' @export
 scale_color_sepia <-
   purrr::partial(

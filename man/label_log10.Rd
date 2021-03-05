@@ -7,10 +7,13 @@
 label_log10(x, digits = 1, TeX = TRUE, output = "expression")
 }
 \arguments{
-\item{TeX}{}
-}
-\value{
+\item{x}{numeric vector}
 
+\item{digits}{integer}
+
+\item{TeX}{logical}
+
+\item{output}{passed to \code{\link[latex2exp:TeX]{latex2exp::TeX()}}}
 }
 \description{
 label_log10

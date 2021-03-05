@@ -18,6 +18,10 @@ scale_sepia(
   na.value = "#00000000",
   aesthetics = c("fill", "color")
 )
+
+scale_fill_sepia(...)
+
+scale_color_sepia(...)
 }
 \arguments{
 \item{...}{passed to \code{\link[ggplot2:continuous_scale]{ggplot2::continuous_scale()}}}
@@ -43,3 +47,10 @@ scale_sepia(
 \description{
 Built to resemble ArcGIS-style "pollution" color ramps.
 }
+\section{Functions}{
+\itemize{
+\item \code{scale_fill_sepia}: fill scale
+
+\item \code{scale_color_sepia}: color scale
+}}
+
