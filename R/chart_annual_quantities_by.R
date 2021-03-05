@@ -30,8 +30,8 @@ chart_annual_quantities_by <- function (
   chart_y_labels = NULL,
   chart_y_title = waiver(),
   chart_y_unit = NULL,
-  chart_y_gridlines = NULL,
-  geom = NULL,
+  chart_gridlines = element_blank(),
+  chart_geom = NULL,
   facet_rows = NULL,
   facet_cols = NULL,
   facet_scales = "fixed",
@@ -168,10 +168,10 @@ chart_annual_quantities_by <- function (
 
     msg("year_prefix is: ", year_prefix)
 
-    stopifnot(length(year_prefix) == 1)
+    stopifnot(length(year_prefix) < 2)
 
-    if (is.na(year_prefix)) {
-      warn_msg("[chart_annual_quantities_by] there's no prefix on `year` (CY, RY, FY, etc.)")
+    if ((length(year_prefix) == 0) || is.na(year_prefix)) {
+      warn_msg <- "[chart_annual_quantities_by] there's no prefix on `year` (CY, RY, FY, etc.)"
       warning(warn_msg)
       year_prefix <- ""
     }
@@ -321,7 +321,7 @@ chart_annual_quantities_by <- function (
     #
     # Treat `fill` like `color`.
     #
-    # If `fill` is present, but `geom` is not, then set `geom` to "area".
+    # If `fill` is present, but `chart_geom` is not, then set `chart_geom` to "area".
     #
     if ("fill" %in% names(by_vars)) {
 
@@ -331,9 +331,9 @@ chart_annual_quantities_by <- function (
         auto_mappings,
         fill = by_vars[["fill"]])
 
-      if (is.null(geom)) {
-        msg("setting geom to area")
-        geom <- "area"
+      if (is.null(chart_geom)) {
+        msg("setting chart_geom to area")
+        chart_geom <- "area"
       }
 
     }
@@ -379,15 +379,20 @@ chart_annual_quantities_by <- function (
 
   } else {
 
-    msg("geom is: ", geom)
+    msg("chart_geom is: ", chart_geom)
 
-    if (is.null(geom)) {
-      msg("setting geom to line")
-      geom <- "line"
+    if (is.null(chart_geom)) {
+      msg("setting chart_geom to line")
+      chart_geom <- "line"
+    }
+
+    # Helpful auto-correction.
+    if (chart_geom == "bar") {
+      chart_geom <- "col"
     }
 
     chart_geom <-
-      get(str_c("geom_", geom))
+      get(str_c("geom_", chart_geom))
 
     chart_layers <-
       list(
@@ -451,14 +456,14 @@ chart_annual_quantities_by <- function (
   # Basic chart theme.
   #
 
-  if (isTRUE(is.null(chart_y_gridlines))) {
-    chart_y_gridlines <- element_line(linetype = "dotted", color = gray(0.7))
+  if (isTRUE(chart_gridlines)) {
+    chart_gridlines <- element_line(linetype = "dotted", color = gray(0.7))
   }
 
   chart_theme <-
     theme_simple() +
     ggplot2::theme(
-      panel.grid.major.y = chart_y_gridlines,
+      panel.grid.major.y = chart_gridlines,
       plot.subtitle = element_text(size = rel(0.9)))
 
   chart_object <-
