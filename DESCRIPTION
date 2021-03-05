@@ -1,7 +1,7 @@
 Package: ggtools
 Type: Package
 Title: Helpers for Charting, Mapping, and Plotting Air Quality and Related Data
-Version: 2021.03.03
+Version: 2021.03.05
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
 Description: Extends the usefulness of ggplot2.
@@ -23,8 +23,6 @@ Remotes:
   github::BAAQMD/yeartools
 Imports:
   lemon
-Reverse-depends: 
-  inventory
 Suggests:
   googleVis,
   ggvis,

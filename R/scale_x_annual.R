@@ -6,8 +6,8 @@ scale_x_annual <- function (
   prefix = "",
   breaks = seq(1990, 2050, by = 10),
   labels = function (x) str_extract(x, "[0-9]{4}"),
-  limits = waiver(),
-  expand = ggplot2::expansion(add = c(0, 1)),
+  limits = NULL,
+  expand = ggplot2::expansion(mult = 0, add = 0.25),
   ...,
   verbose = getOption("verbose")
 ) {
@@ -25,7 +25,7 @@ scale_x_annual <- function (
     }
   }
 
-  if (missing(limits)) {
+  if (is.null(limits)) {
 
     scale_x_continuous(
       name = name,
@@ -35,6 +35,13 @@ scale_x_annual <- function (
       ...)
 
   } else {
+
+    expand_mult <- expand[c(1, 3)] * c(-1, 1) # left and right, respectively
+    expand_add  <- expand[c(2, 4)] * c(-1, 1) # left and right, respectively
+
+    limits <- as.numeric(yeartools::elide_year(limits))
+    limits <- limits + c(-0.5, 0.5)
+    msg("adjusted `limits` is: ", str_csv(limits))
 
     scale_x_continuous(
       name = name,
