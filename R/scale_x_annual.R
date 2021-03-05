@@ -7,7 +7,7 @@ scale_x_annual <- function (
   breaks = seq(1990, 2050, by = 10),
   labels = function (x) str_extract(x, "[0-9]{4}"),
   limits = NULL,
-  expand = ggplot2::expansion(mult = 0, add = 0.25),
+  expand = NULL,
   ...,
   verbose = getOption("verbose")
 ) {
@@ -23,6 +23,10 @@ scale_x_annual <- function (
     } else if (is.character(prefix)) {
       labels <- f(labels)
     }
+  }
+
+  if (is.null(expand)) {
+    expand <- ggplot2::expansion(mult = 0, add = 0.25)
   }
 
   if (is.null(limits)) {

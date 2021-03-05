@@ -10,7 +10,7 @@ scale_x_annual(
   breaks = seq(1990, 2050, by = 10),
   labels = function(x) str_extract(x, "[0-9]{4}"),
   limits = NULL,
-  expand = ggplot2::expansion(add = 0.5),
+  expand = NULL,
   ...,
   verbose = getOption("verbose")
 )
