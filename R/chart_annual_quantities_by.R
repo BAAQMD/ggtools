@@ -3,7 +3,21 @@
 #' @usage chart_annual_quantities_by(data, ...)
 #' @describeIn chart_annual_by Chart an arbitrary annual quantity.
 #'
-#' @importFrom lemon facet_rep_wrap
+#' @importFrom lemon facet_rep_wrap facet_rep_grid
+#' @importFrom ggplot2 expansion facet_null
+#' @importFrom vartools find_qty_var
+#' @importFrom tidyselect vars_select
+#' @importFrom strtools str_csv
+#' @importFrom yeartools timeline elide_year
+#' @importFrom stringr str_c
+#' @importFrom dplyr group_by_at group_vars ungroup mutate pull filter if_else distinct
+#' @importFrom qtytools annual_quantities_by
+#' @importFrom tidyr unite
+#' @importFrom rlang set_names
+#' @importFrom ggplot2 theme theme_simple ggplot aes geom_point scale_color_tableau scale_fill_tableau scale_alpha scale_alpha_manual
+#' @importFrom glue glue
+#' @importFrom ggrepel geom_label_repel
+#' @importFrom purrr map
 #'
 #' @export
 chart_annual_quantities_by <- function (
@@ -72,11 +86,9 @@ chart_annual_quantities_by <- function (
   # Downgrade `year_limits` to a numeric vector.
   #
 
-  if (!is.null(year_limits)) {
-
+  if (isFALSE(is.null(year_limits))) {
     year_limits <-
-      as.numeric(elide_year(year_limits))
-
+      as.numeric(yeartools::elide_year(year_limits))
   }
 
   #
@@ -87,7 +99,7 @@ chart_annual_quantities_by <- function (
       names(data),
       ...)
 
-  if (!is.null(facet_rows) || !is.null(facet_cols)) {
+  if (isFALSE(is.null(facet_rows)) || isFALSE(is.null(facet_cols))) {
 
     facet_vars <-
       c(facet_rows, facet_cols) %>%
@@ -98,8 +110,8 @@ chart_annual_quantities_by <- function (
 
   }
 
-  msg("by_vars is: ", str_csv(names(by_vars)))
-  msg("names(by_vars) is: ", str_csv(names(by_vars)))
+  msg("by_vars is: ", strtools::str_csv(names(by_vars)))
+  msg("names(by_vars) is: ", strtools::str_csv(names(by_vars)))
 
   #
   # Optional: faceting.
@@ -108,13 +120,13 @@ chart_annual_quantities_by <- function (
   if (is.null(facet_rows) && is.null(facet_cols)) {
 
     chart_faceting <-
-      facet_null()
+      ggplot2::facet_null()
 
   } else if (is.null(facet_cols)) {
 
     chart_faceting <-
       lemon::facet_rep_wrap(
-        as.formula(str_c("~ ", str_c(facet_rows, collapse = " + "))),
+        as.formula(str_c("~ ", stringr::str_c(facet_rows, collapse = " + "))),
         ncol = 1,
         scales = facet_scales,
         repeat.tick.labels = TRUE)
@@ -123,7 +135,7 @@ chart_annual_quantities_by <- function (
 
     chart_faceting <-
       lemon::facet_rep_wrap(
-        as.formula(str_c("~ ", str_c(facet_cols, collapse = " + "))),
+        as.formula(str_c("~ ", stringr::str_c(facet_cols, collapse = " + "))),
         nrow = 1,
         scales = facet_scales,
         repeat.tick.labels = TRUE)
@@ -132,7 +144,7 @@ chart_annual_quantities_by <- function (
 
     chart_faceting <-
       lemon::facet_rep_grid(
-        as.formula(str_c(facet_rows, " ~ ", facet_cols)),
+        as.formula(stringr::str_c(facet_rows, " ~ ", facet_cols)),
         scales = facet_scales,
         repeat.tick.labels = TRUE)
 
@@ -155,9 +167,8 @@ chart_annual_quantities_by <- function (
   } else {
 
     year_prefix <-
-      pull_distinct(data, year) %>%
-      str_extract("^[A-Z]Y") %>%
-      unique()
+      yeartools::timeline(
+        pull_distinct(data, year))
 
     msg("year_prefix is: ", year_prefix)
 
@@ -207,28 +218,26 @@ chart_annual_quantities_by <- function (
 
   } else {
 
-    msg("grouping by `by_vars`: ", str_csv(by_vars))
+    msg("grouping by `by_vars`: ", strtools::str_csv(by_vars))
 
     grouped_data <-
-      data %>%
-      group_by_at(
+      dplyr::group_by_at(
+        data,
         all_of(unname(by_vars)),
         .add = TRUE)
 
     grp_vars <-
-      grouped_data %>%
-      dplyr::group_vars()
+      dplyr::group_vars(grouped_data)
 
     msg("grp_vars is: ", str_csv(grp_vars))
     msg("names(grp_vars) is: ", str_csv(names(grp_vars)))
 
     aggregated_data <-
-      grouped_data %>%
-      ungroup() %>%
-      humanize_id_vars(
-        verbose = verbose) %>%
-      annual_quantities_by(
+      dplyr::ungroup(grouped_data) %>%
+      humanize_id_vars(verbose = verbose) %>%
+      qtytools::annual_quantities_by(
         all_of(grp_vars))
+
     #all_of(unique(c(grp_vars, by_vars))))
 
     if (length(grp_vars) > 0) {
@@ -237,27 +246,27 @@ chart_annual_quantities_by <- function (
 
       chart_data <-
         aggregated_data %>%
-        unite(
+        tidyr::unite(
           grp_id,
           !!grp_vars,
           remove = FALSE) %>%
-        group_by_at(
+        dplyr::group_by_at(
           all_of(grp_vars)) %>%
-        mutate(
-          year_break = if_else(
+        dplyr::mutate(
+          year_break = dplyr::if_else(
             as.numeric(elide_year(year)) - lag(as.numeric(elide_year(year))) >= 2,
             true = TRUE, false = FALSE, missing = FALSE)) %>%
-        mutate(
-          series = str_c(
+        dplyr::mutate(
+          series = stringr::str_c(
             grp_id,
             cumsum(year_break),
             sep = "-")) %>%
-        ungroup()
+        dplyr::ungroup()
 
     } else {
 
       chart_data <-
-        mutate(
+        dplyr::mutate(
           aggregated_data,
           series = 1)
 
@@ -347,7 +356,7 @@ chart_annual_quantities_by <- function (
         alpha = by_vars[[alpha_var]])
 
       alpha_set <-
-        levels(pull(chart_data, by_vars[[alpha_var]]))
+        levels(dplyr::pull(chart_data, by_vars[[alpha_var]]))
 
       alpha_levels <-
         set_names(
@@ -407,7 +416,7 @@ chart_annual_quantities_by <- function (
     }
 
     chart_description <-
-      labs(
+      ggplot2::labs(
         title = title,
         subtitle = subtitle,
         caption = caption)
@@ -419,18 +428,18 @@ chart_annual_quantities_by <- function (
   #
 
   chart_color_scale <-
-    scale_color_tableau()
+    ggplot2::scale_color_tableau()
 
   chart_fill_scale <-
-    scale_fill_tableau()
+    ggplot2::scale_fill_tableau()
 
   if (exists("alpha_levels")) {
     chart_alpha_scale <-
-      scale_alpha_manual(
+      ggplot2::scale_alpha_manual(
         values = alpha_levels)
   } else {
     chart_alpha_scale <-
-      scale_alpha()
+      ggplot2::scale_alpha()
   }
 
   chart_scales <-
@@ -446,15 +455,15 @@ chart_annual_quantities_by <- function (
   #
 
   chart_theme <-
-    theme_simple() +
-    theme(
+    ggplot2::theme_simple() +
+    ggplot2::theme(
       plot.subtitle = element_text(size = rel(0.9)))
 
   chart_object <-
-    ggplot(
+    ggplot2::ggplot(
       data = chart_data,
       mapping = mapping) +
-    aes(x = as.numeric(yeartools::elide_year(year))) +
+    ggplot2::aes(x = as.numeric(yeartools::elide_year(year))) +
     chart_aes +
     chart_theme +
     chart_scales +
@@ -466,12 +475,11 @@ chart_annual_quantities_by <- function (
 
     flag_data <-
       chart_data %>%
-      drop_vars(
-        series) %>%
-      distinct() %>%
-      filter(
-        elide_year(year) %in% elide_year(flag_years)) %>%
-      mutate(
+      vartools::drop_vars(series) %>%
+      dplyr::distinct() %>%
+      dplyr::filter(
+        yeartools::elide_year(year) %in% yeartools::elide_year(flag_years)) %>%
+      dplyr::mutate(
         label = as.character(
           glue::glue(
             flag_labels,
@@ -496,7 +504,7 @@ chart_annual_quantities_by <- function (
 
     flag_layer <-
       list(
-        geom_point(
+        ggplot2::geom_point(
           data = flag_data),
         ggrepel::geom_label_repel(
           aes(
@@ -522,13 +530,13 @@ chart_annual_quantities_by <- function (
   if (!is.null(base_year)) {
 
     base_year_data <-
-      chart_data %>%
-      filter(
+      dplyr::filter(
+        chart_data,
         elide_year(year) == elide_year(base_year))
 
     base_year_layers <-
-      base_year_shape %>%
-      map(
+      purrr::map(
+        base_year_shape,
         ~ geom_point(
           shape = .,
           size = 4,
