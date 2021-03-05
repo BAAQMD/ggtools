@@ -14,6 +14,7 @@ chart_annual_throughputs_by <- function (
   chart_y_scale = NULL,
   chart_y_labels = NULL,
   chart_y_unit = NULL,
+  chart_y_title = chart_y_unit,
   geom = NULL,
   facet_rows = NULL,
   facet_cols = NULL,
@@ -106,10 +107,12 @@ chart_annual_throughputs_by <- function (
       ensurer::ensure(
         length(.) == 1)
 
+
     if (is.null(chart_y_scale)) {
+
       chart_y_scale <-
         scale_y_throughputs(
-          chart_y_unit,
+          chart_y_title,
           labels = chart_y_labels,
           expand = ggplot2::expansion(mult = c(0, 0.3)),
           verbose = verbose)
