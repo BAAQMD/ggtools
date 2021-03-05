@@ -13,7 +13,7 @@ chart_annual_emissions_by <- function (
   chart_y_scale = NULL,
   chart_y_labels = NULL,
   geom = NULL,
-  facet_rows = "pol_abbr",
+  facet_rows = NULL,
   facet_cols = NULL,
   facet_scales = "free_y",
   year_limits = NULL,
@@ -29,6 +29,21 @@ chart_annual_emissions_by <- function (
 ) {
 
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_emissions_by] ", ...)
+
+  if ("pollutant" %in% names(data)) {
+    pol_var <- "pollutant"
+  } else if ("pol_abbr" %in% names(data)) {
+    pol_var <- "pol_abbr"
+  } else {
+    err_msg <- "[chart_annual_emissions_by] can't find `pollutant` or `pol_abbr` in your data"
+    stop(err_msg)
+  }
+
+  if (is.null(facet_rows)) {
+    msg("setting `facet_rows` to \"", pol_var, "\"")
+    facet_rows <- pol_var
+  }
+
 
   #
   # If `year` isn't present, try reshaping the data from wide to long.
@@ -76,7 +91,7 @@ chart_annual_emissions_by <- function (
     data %>%
     chart_annual_quantities_by(
       ...,
-      pol_abbr,
+      pol_var,
       mapping = mapping,
       qty_var = qty_var,
       geom = geom,
