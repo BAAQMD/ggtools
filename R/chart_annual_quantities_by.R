@@ -14,7 +14,8 @@
 #' @importFrom qtytools annual_quantities_by
 #' @importFrom tidyr unite
 #' @importFrom rlang set_names
-#' @importFrom ggplot2 theme theme_simple ggplot aes geom_point scale_color_tableau scale_fill_tableau scale_alpha scale_alpha_manual
+#' @importFrom ggplot2 theme ggplot aes geom_point scale_alpha scale_alpha_manual
+#' @importFrom ggthemes scale_color_tableau scale_fill_tableau
 #' @importFrom glue glue
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom purrr map
@@ -27,7 +28,9 @@ chart_annual_quantities_by <- function (
   qty_var = NULL,
   chart_y_scale = NULL,
   chart_y_labels = NULL,
+  chart_y_title = waiver(),
   chart_y_unit = NULL,
+  chart_y_gridlines = NULL,
   geom = NULL,
   facet_rows = NULL,
   facet_cols = NULL,
@@ -56,13 +59,6 @@ chart_annual_quantities_by <- function (
   if (is.null(year_breaks)) {
     year_breaks <-
       seq(1990, 2050, by = 10)
-  }
-
-  if (is.null(year_expand)) {
-    year_expand <-
-      ggplot2::expansion(
-        add = c(1, 1),
-        mult = c(1.5/50, 1.5/50))
   }
 
   msg("WARNING: experimental --- do not use in production!")
@@ -205,6 +201,7 @@ chart_annual_quantities_by <- function (
     msg("defaulting: chart_y_scale = scale_y_quantity")
     chart_y_scale <-
       scale_y_quantity(
+        name = chart_y_title,
         labels = chart_y_labels)
 
   }
@@ -428,10 +425,10 @@ chart_annual_quantities_by <- function (
   #
 
   chart_color_scale <-
-    ggplot2::scale_color_tableau()
+    ggthemes::scale_color_tableau()
 
   chart_fill_scale <-
-    ggplot2::scale_fill_tableau()
+    ggthemes::scale_fill_tableau()
 
   if (exists("alpha_levels")) {
     chart_alpha_scale <-
@@ -454,9 +451,14 @@ chart_annual_quantities_by <- function (
   # Basic chart theme.
   #
 
+  if (isTRUE(is.null(chart_y_gridlines))) {
+    chart_y_gridlines <- element_line(linetype = "dotted", color = gray(0.7))
+  }
+
   chart_theme <-
-    ggplot2::theme_simple() +
+    theme_simple() +
     ggplot2::theme(
+      panel.grid.major.y = chart_y_gridlines,
       plot.subtitle = element_text(size = rel(0.9)))
 
   chart_object <-
