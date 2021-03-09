@@ -547,7 +547,7 @@ chart_annual_quantities_by <- function (
         ~ geom_point(
           shape = .,
           size = 4,
-          position = if_else(geom == "area", "stack", "identity"),
+          position = if_else(chart_geom == "area", "stack", "identity"),
           data = base_year_data))
 
     chart_object <-
