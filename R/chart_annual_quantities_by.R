@@ -336,6 +336,15 @@ chart_annual_quantities_by <- function (
         chart_geom <- "area"
       }
 
+      #' We have to fiddle a bit with `series` to get area wedges to stack in
+      #' the desired order (the one determined by the levels of `by_vars[["fill"]]`)
+      chart_data <-
+        chart_data %>%
+        arrange(
+          by_vars[["fill"]]) %>%
+        mutate(
+          series = fct_inorder(series))
+
     }
 
     #
@@ -391,12 +400,12 @@ chart_annual_quantities_by <- function (
       chart_geom <- "col"
     }
 
-    chart_geom <-
+    chart_geom_constructor <-
       get(str_c("geom_", chart_geom))
 
     chart_layers <-
       list(
-        chart_geom(
+        chart_geom_constructor(
           aes(group = series)))
 
   }
@@ -432,8 +441,9 @@ chart_annual_quantities_by <- function (
   chart_color_scale <-
     ggthemes::scale_color_tableau()
 
-  chart_fill_scale <-
-    ggthemes::scale_fill_tableau()
+  chart_fill_scale <- list(
+    ggthemes::scale_fill_tableau(),
+    guides(fill = guide_legend(reverse = FALSE)))
 
   if (exists("alpha_levels")) {
     chart_alpha_scale <-
@@ -465,6 +475,8 @@ chart_annual_quantities_by <- function (
     ggplot2::theme(
       panel.grid.major.y = chart_gridlines,
       plot.subtitle = element_text(size = rel(0.9)))
+
+  msg("levels(chart_data$category) is: ", str_csv(levels(chart_data$category)))
 
   chart_object <-
     ggplot2::ggplot(
@@ -556,6 +568,7 @@ chart_annual_quantities_by <- function (
 
   }
 
+  attr(chart_object, "data") <- chart_data
   return(chart_object)
 
 }
