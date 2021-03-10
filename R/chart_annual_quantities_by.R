@@ -18,10 +18,11 @@
 #' @importFrom ggthemes scale_color_tableau scale_fill_tableau
 #' @importFrom glue glue
 #' @importFrom ggrepel geom_label_repel
-#' @importFrom purrr map
 #'
 #' @export
-chart_annual_quantities_by <- function (
+#'
+#' @aliases chart_annual_quantities
+chart_annual_quantities_by <- function(
   data = NULL,
   ...,
   mapping = aes(),
@@ -30,7 +31,7 @@ chart_annual_quantities_by <- function (
   chart_y_labels = NULL,
   chart_y_title = waiver(),
   chart_y_unit = NULL,
-  chart_gridlines = element_blank(),
+  chart_gridlines = TRUE,
   chart_geom = NULL,
   facet_rows = NULL,
   facet_cols = NULL,
@@ -336,8 +337,8 @@ chart_annual_quantities_by <- function (
         chart_geom <- "area"
       }
 
-      #' We have to fiddle a bit with `series` to get area wedges to stack in
-      #' the desired order (the one determined by the levels of `by_vars[["fill"]]`)
+      # We have to fiddle a bit with `series` to get area wedges to stack in
+      # the desired order
       chart_data <-
         chart_data %>%
         arrange(
@@ -574,8 +575,6 @@ chart_annual_quantities_by <- function (
 }
 
 #' chart_annual_quantities
-#'
-#' @noRd
 #'
 #' @export
 chart_annual_quantities <-

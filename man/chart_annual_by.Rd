@@ -10,6 +10,7 @@
 \alias{chart_annual_emissions_by}
 \alias{chart_annual_growth_by}
 \alias{chart_annual_quantities_by}
+\alias{chart_annual_quantities}
 \alias{chart_annual_throughputs_by}
 \title{Charting Annual Data}
 \usage{
