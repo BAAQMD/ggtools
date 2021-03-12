@@ -26,6 +26,7 @@ chart_annual_quantities_by <- function(
   data = NULL,
   ...,
   mapping = aes(),
+  geom = NULL,
   qty_var = NULL,
   chart_y_scale = NULL,
   chart_y_labels = NULL,
@@ -51,6 +52,10 @@ chart_annual_quantities_by <- function(
 ) {
 
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_quantities_by] ", ...)
+
+  if (is.null(chart_geom)) {
+    chart_geom <- geom
+  }
 
   if (is.null(year_limits)) {
     year_limits <-
