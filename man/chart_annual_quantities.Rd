@@ -8,6 +8,7 @@ chart_annual_quantities(
   data = NULL,
   ...,
   mapping = aes(),
+  geom = NULL,
   qty_var = NULL,
   chart_y_scale = NULL,
   chart_y_labels = NULL,
