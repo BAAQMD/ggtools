@@ -6,7 +6,7 @@
 \usage{
 scale_x_log10(
   ...,
-  limits,
+  limits = waiver(),
   labels = ggtools::label_log10,
   expand = expansion(mult = c(0.01, 0.01)),
   verbose = getOption("verbose", default = FALSE)

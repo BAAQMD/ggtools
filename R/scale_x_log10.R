@@ -8,17 +8,13 @@
 #' @export
 scale_x_log10 <- function (
   ...,
-  limits,
+  limits = waiver(),
   labels = ggtools::label_log10,
   expand = expansion(mult = c(0.01, 0.01)),
   verbose = getOption("verbose", default = FALSE)
 ) {
 
   msg <- function (...) if(isTRUE(verbose)) message("[scale_x_log10] ", ...)
-
-  # if (is.null(labels)) {
-  #   labels <- function (x) label_log10(x)
-  # }
 
   log10_breaks <- seq(
     floor(min(log10(limits))),

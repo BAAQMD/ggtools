@@ -63,6 +63,7 @@ Collate:
     'label_log10.R'
     'scale2palette.R'
     'scale_cubehelix.R'
+    'scale_log10.R'
     'scale_quantity.R'
     'scale_sepia.R'
     'scale_x_annual.R'
