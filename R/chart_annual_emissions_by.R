@@ -12,6 +12,7 @@ chart_annual_emissions_by <- function (
   qty_var = "ems_qty",
   chart_y_scale = NULL,
   chart_y_labels = NULL,
+  chart_y_unit = NULL,
   geom = NULL,
   facet_rows = NULL,
   facet_cols = NULL,
@@ -64,17 +65,10 @@ chart_annual_emissions_by <- function (
 
   } else {
 
-    unit_var <-
-      str_replace(
-        qty_var,
-        "_qty$",
-        "_unit")
-
-    chart_y_unit <-
-      data %>%
-      pull(
-        unit_var) %>%
-      unique()
+    if (is.null(chart_y_unit)) {
+      unit_var <- str_replace(qty_var, "_qty$", "_unit")
+      chart_y_unit <- unique(pull(data, unit_var))
+    }
 
     if (is.null(chart_y_scale)) {
       chart_y_scale <-
