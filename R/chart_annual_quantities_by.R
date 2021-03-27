@@ -53,6 +53,8 @@ chart_annual_quantities_by <- function(
 
   msg <- function (...) if(isTRUE(verbose)) message("[chart_annual_quantities_by] ", ...)
 
+  msg("names(data) is: ", str_csv(names(data)))
+
   if (is.null(chart_geom)) {
     chart_geom <- geom
   }
@@ -67,27 +69,22 @@ chart_annual_quantities_by <- function(
       seq(1990, 2050, by = 10)
   }
 
-  msg("WARNING: experimental --- do not use in production!")
+  msg("WARNING: experimental --- do not use in production!!")
 
   #
   # Autodetect `qty_var`, if not specified.
   #
-
   if (is.null(qty_var)) {
-
     qty_var <-
       vartools::find_qty_var(
         data,
         verbose = verbose)
-
   }
-
   msg("qty_var is: ", qty_var)
 
   #
   # Downgrade `year_limits` to a numeric vector.
   #
-
   if (isFALSE(is.null(year_limits))) {
     year_limits <-
       as.numeric(yeartools::elide_year(year_limits))
@@ -104,21 +101,19 @@ chart_annual_quantities_by <- function(
   if (isFALSE(is.null(facet_rows)) || isFALSE(is.null(facet_cols))) {
 
     facet_vars <-
-      c(facet_rows, facet_cols) %>%
-      set_names()
+      set_names(
+        c(facet_rows, facet_cols))
 
     by_vars <-
       c(by_vars, facet_vars)
 
   }
-
   msg("by_vars is: ", strtools::str_csv(names(by_vars)))
   msg("names(by_vars) is: ", strtools::str_csv(names(by_vars)))
 
   #
   # Optional: faceting.
   #
-
   if (is.null(facet_rows) && is.null(facet_cols)) {
 
     chart_faceting <-
@@ -158,7 +153,6 @@ chart_annual_quantities_by <- function(
   # `data` is either NULL --- in which case we can't determine `year_breaks` --- or it
   # has been supplied, in which case we can.
   #
-
   if (is.null(data)) {
 
     chart_x_scale <-
@@ -281,11 +275,15 @@ chart_annual_quantities_by <- function(
 
   #
   # Assemble `chart_aes`.
+  # - if `shape` was supplied, then add an aesthetic for that.
+  # - if `linetype` was supplied, then add an aesthetic for that.
+  # - if `color` was supplied, then add an aesthetic for that.
+  # - if `fill` was not supplied, but `color` was, then use that
+  #   for both `fill` _and_ `color`.
   #
-  # - if `linetype = ` was supplied, then add an aesthetic for that.
-  # - if `color = ` was supplied, then add an aesthetic for that.
-  # - if `fill = ` was not supplied, but `color = ` was, then use that
-  #   for both color *and* fill.
+  # Also:
+  # - if `shape` was supplied, then set the geom to "point".
+  # - if `fill` was supplied, then set the geom to "area".
   #
 
   if (is.null(data)) {
@@ -297,19 +295,29 @@ chart_annual_quantities_by <- function(
     auto_mappings <-
       c(y = unname(qty_var))
 
+    # Shape.
+    if ("shape" %in% names(by_vars)) {
 
-    #
+      auto_mappings <- c(
+        auto_mappings,
+        shape = by_vars[["shape"]])
+
+      if (is.null(chart_geom)) {
+        msg("setting chart_geom to point")
+        chart_geom <- "point"
+      }
+
+    }
+
+
     # Linetype (dashed, dotted, etc.)
-    #
     if ("linetype" %in% names(by_vars)) {
       auto_mappings <- c(
         auto_mappings,
         linetype = by_vars[["linetype"]])
     }
 
-    #
     # Color.
-    #
     if ("color" %in% names(by_vars)) {
 
       auto_mappings <- c(
@@ -416,15 +424,22 @@ chart_annual_quantities_by <- function(
 
   }
 
-
   #
-  # Assemble `chart_description`.
+  # Assemble title, subtitle, and caption.
   #
-  # The default chart caption is "DRAFT YYYY-mm-dd".
-  #
-
   chart_description <- local({
 
+    # Try to supply a helpful title, if `category` is in the data & is unique.
+    if (isTRUE(is.null(title))) {
+      if ("category" %in% names(data)) {
+        category <- pull_distinct(data, category)
+        if (length(category) == 1) {
+          title <- category
+        }
+      }
+    }
+
+    # Default caption is "DRAFT YYYY-mm-dd".
     if (is.null(caption)) {
       caption <-
         glue::glue(
@@ -460,10 +475,21 @@ chart_annual_quantities_by <- function(
       ggplot2::scale_alpha()
   }
 
+  chart_shape_scale <- NULL
+  shape_var <- pluck(by_vars, "shape")
+  if (isFALSE(is.null(shape_var)) && (shape_var == "inventory")) {
+    if (setequal(pull_distinct(data, inventory), c("PY", "RY"))) {
+      msg("using manual scale for shape")
+      chart_shape_scale <- scale_shape_manual(
+        values = c("RY" = 16, "PY" = 5))
+    }
+  }
+
   chart_scales <-
     list(
       chart_x_scale,
       chart_y_scale,
+      chart_shape_scale,
       chart_color_scale,
       chart_fill_scale,
       chart_alpha_scale)
@@ -481,8 +507,6 @@ chart_annual_quantities_by <- function(
     ggplot2::theme(
       panel.grid.major.y = chart_gridlines,
       plot.subtitle = element_text(size = rel(0.9)))
-
-  msg("levels(chart_data$category) is: ", str_csv(levels(chart_data$category)))
 
   chart_object <-
     ggplot2::ggplot(
