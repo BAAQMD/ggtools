@@ -21,7 +21,8 @@ Remotes:
   github::BAAQMD/strtools,
   github::BAAQMD/tbltools,
   github::BAAQMD/qtytools,
-  github::BAAQMD/yeartools
+  github::BAAQMD/yeartools,
+  github::jiho/chroma
 Imports:
   lemon
 Suggests:
@@ -31,7 +32,8 @@ Suggests:
   chroma,
   ggforce,
   viridis,
-  testthat (>= 2.1.0)
+  testthat (>= 2.1.0),
+  knitr
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
