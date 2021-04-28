@@ -24,16 +24,27 @@ Remotes:
   github::BAAQMD/yeartools,
   github::jiho/chroma
 Imports:
-  lemon
-Suggests:
+  lemon,
+  dplyr,
+  glue,
   googleVis,
+  jsonlite,
+  latex2exp,
+  purrr,
+  rlang,
+  stringr,
+  tidyr,
+  tidyselect,
+  vartools
+Suggests:
   ggvis,
   lltools,
   chroma,
   ggforce,
   viridis,
   testthat (>= 2.1.0),
-  knitr
+  knitr,
+  here
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
