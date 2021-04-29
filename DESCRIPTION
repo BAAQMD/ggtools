@@ -1,7 +1,7 @@
 Package: ggtools
 Type: Package
 Title: Helpers for Charting, Mapping, and Plotting Air Quality and Related Data
-Version: 2021.04.08
+Version: 2021.04.28
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
 Description: Extends the usefulness of ggplot2.
@@ -24,16 +24,27 @@ Remotes:
   github::BAAQMD/yeartools,
   github::jiho/chroma
 Imports:
-  lemon
-Suggests:
+  lemon,
+  dplyr,
+  glue,
   googleVis,
+  jsonlite,
+  latex2exp,
+  purrr,
+  rlang,
+  stringr,
+  tidyr,
+  tidyselect,
+  vartools
+Suggests:
   ggvis,
   lltools,
   chroma,
   ggforce,
   viridis,
   testthat (>= 2.1.0),
-  knitr
+  knitr,
+  here
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
