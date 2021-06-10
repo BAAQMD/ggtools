@@ -37,6 +37,6 @@ write_png <- function (
     dpi = dpi,
     ...)
 
-  return(chart_object)
+  return(invisible(chart_object))
 
 }
