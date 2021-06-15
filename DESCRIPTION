@@ -36,9 +36,9 @@ Imports:
   tidyr,
   tidyselect,
   vartools,
-  units
+  units,
+  ggvis
 Suggests:
-  ggvis,
   lltools,
   chroma,
   ggforce,

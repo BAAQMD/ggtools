@@ -9,6 +9,9 @@
 #' BY2011_NOx_by_cnty %>% ggvis_stripchart(stroke = ~cnty_abbr)
 #' BY2011_NOx_by_cnty %>% ggvis_stripchart(fill = ~cnty_abbr)
 #'
+#' @importFrom ggvis layer_lines compute_stack layer_ribbons scale_numeric compute_stack
+#' @importFrom ggvis add_axis set_options
+#' @importFrom dplyr group_by_
 #' @export
 ggvis_stripchart <- function (
   input_data,
@@ -24,8 +27,6 @@ ggvis_stripchart <- function (
   y_axis_format = "s",
   verbose = FALSE
 ) {
-
-  require(ggvis)
 
   # TODO: implement these options
   # if (is.null(colors)) colors <- names(SAFE_COLORS)
