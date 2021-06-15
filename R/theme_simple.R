@@ -1,6 +1,7 @@
 #' Minimalist theme
 #'
 #' @export
+#' @importFrom ggplot2 element_text element_blank
 theme_simple <- function (
   ...,
   legend.position = "right",

@@ -7,6 +7,8 @@
 #'
 #' @importFrom yeartools CY
 #' @importFrom qtytools sum_annual_quantities_by
+#' @importFrom dplyr group_modify
+#' @importFrom ggplot2 geom_hline
 #'
 #' @export
 chart_annual_growth_by <- function (

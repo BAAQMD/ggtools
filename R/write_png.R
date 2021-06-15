@@ -1,3 +1,4 @@
+#' @importFrom stringr str_detect
 #' @export
 write_png <- function (
   chart_object,
