@@ -1,5 +1,7 @@
 #' scale_y_percentage
 #'
+#' @importFrom strtools format_percentage
+#'
 #' @export
 scale_y_percentage <- function (
   ...,

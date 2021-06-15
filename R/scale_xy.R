@@ -1,3 +1,4 @@
+#' @importFrom ggplot2 coord_fixed
 scale_xy <- function (
   name = NULL,
   ...,

@@ -1,5 +1,7 @@
 #' Annual scale for CY, RY, PY, etc.
 #'
+#' @importFrom ggplot2 scale_x_continuous
+#'
 #' @export
 scale_x_annual <- function (
   name = NULL,

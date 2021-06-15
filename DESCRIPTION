@@ -35,7 +35,8 @@ Imports:
   stringr,
   tidyr,
   tidyselect,
-  vartools
+  vartools,
+  units
 Suggests:
   ggvis,
   lltools,

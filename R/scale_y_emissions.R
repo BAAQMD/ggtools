@@ -1,5 +1,7 @@
 #' scale_y_emissions
 #'
+#' @importFrom ggplot2 scale_y_continuous
+#'
 #' @export
 scale_y_emissions <- function (
   name = c("tons/yr", "tons/day"),
