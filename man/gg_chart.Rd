@@ -15,13 +15,13 @@ You must add \code{geom_area(...)} or \code{geom_line(...)} to the result. See e
 }
 \examples{
 test_yrs <- RY(2014:2016)
-chart_data <- data_frame(year = test_yrs, ems_qty = seq(100, 200, length.out = length(test_yrs)), ems_unit = "tons/yr")
+chart_data <- tibble(year = test_yrs, ems_qty = seq(100, 200, length.out = length(test_yrs)), ems_unit = "tons/yr")
 gg_annual_chart(chart_data) + geom_point()
 
 library(inventory)
 
 airport_cats <-
-  data_frame(cat_id = 441:708)
+  tibble(cat_id = 441:708)
 
 archived_emissions <-
   BY2011_annual \%>\%

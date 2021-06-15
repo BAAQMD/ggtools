@@ -7,7 +7,7 @@
 #' library(inventory)
 #'
 #' airport_cats <-
-#'   data_frame(cat_id = 441:708)
+#'   tibble(cat_id = 441:708)
 #'
 #' archived_emissions <-
 #'   BY2011_annual %>%

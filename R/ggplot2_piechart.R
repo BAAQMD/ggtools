@@ -6,6 +6,7 @@
 #' @param digits digits after decimal
 #' @param sorted logical
 #'
+#' @importFrom tibble tibble
 #' @examples
 #' BY2011_NOx_2015 <- BY2011_annual %>% filter(year == 2015, pol_abbr == "NOx")
 #' BY2011_NOx_2015_by_cnty <- BY2011_NOx %>% annual_emissions_by(cnty_abbr)
@@ -23,7 +24,7 @@ ggplot2_piechart <- function (input_data, ..., colors = NULL, digits = 0, sorted
 
   n <- nrow(input_data)
 
-  chart_data <- data_frame(
+  chart_data <- tibble(
     label = input_data[[label_var]] %>% as.factor(),
     share = input_data[[value_var]] %>% {. / sum(.)}, # normalize to [0, 1]
     start = c(0, cumsum(share)[-n]),
