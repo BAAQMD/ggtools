@@ -3,6 +3,11 @@
 #' @usage chart_annual_control_factors_by(data, ...)
 #' @describeIn chart_annual_by Chart annual control factors.
 #'
+#' @importFrom funtools %not_in%
+#' @importFrom dplyr %>%
+#' @importFrom yeartools gather_years
+#' @importFrom tbltools pull_distinct
+#' @importFrom stringr str_replace
 #' @export
 chart_annual_control_factors_by <- function (
   data = NULL,
