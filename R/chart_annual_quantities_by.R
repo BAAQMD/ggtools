@@ -6,7 +6,7 @@
 #' @importFrom lemon facet_rep_wrap facet_rep_grid
 #' @importFrom ggplot2 expansion facet_null
 #' @importFrom vartools find_qty_var
-#' @importFrom tidyselect vars_select
+#' @importFrom tidyselect vars_select all_of
 #' @importFrom strtools str_csv
 #' @importFrom yeartools timeline elide_year
 #' @importFrom stringr str_c
@@ -18,6 +18,7 @@
 #' @importFrom ggthemes scale_color_tableau scale_fill_tableau
 #' @importFrom glue glue
 #' @importFrom ggrepel geom_label_repel
+#' @importFrom stats as.formula
 #'
 #' @export
 #'

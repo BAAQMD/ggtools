@@ -9,6 +9,7 @@
 #'
 #' @importFrom googleVis gvisBarChart
 #' @importFrom jsonlite toJSON
+#' @importFrom funtools all_same
 #'
 #' @export
 #'

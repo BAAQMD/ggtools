@@ -1,5 +1,9 @@
 #' scale_y_throughputs
 #'
+#' @importFrom ggplot2 scale_y_continuous
+#' @importFrom strtools format_qty
+#' @importFrom units set_units
+#'
 #' @export
 scale_y_throughputs <- function (
   name,

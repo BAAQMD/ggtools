@@ -6,6 +6,8 @@
 #' @param limits (numeric) axis range
 #' @param labels see [ggplot2::scale_y_continuous()]
 #'
+#' @importFrom strtools format_SI
+#'
 #' @export
 scale_y_SI_units <- function(..., limits = c(0, NA), labels = format_SI) {
   ggplot2::scale_y_continuous(..., limits = limits, labels = labels)

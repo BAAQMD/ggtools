@@ -9,6 +9,8 @@
 #'
 #' @importFrom googleVis gvisPieChart
 #' @importFrom jsonlite toJSON
+#' @importFrom tbltools print_tbl paste_csv
+#' @importFrom dplyr select_ arrange mutate_at
 #'
 #' @export
 #'

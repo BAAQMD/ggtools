@@ -4,6 +4,9 @@
 #'
 #' @describeIn chart_annual_by Chart annual throughputs.
 #'
+#' @importFrom dplyr select
+#' @importFrom tidyselect starts_with
+#'
 #' @export
 chart_annual_throughputs_by <- function (
   data = NULL,

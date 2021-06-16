@@ -5,6 +5,11 @@
 #' @usage chart_annual_growth_by(data, ..., base_year)
 #' @describeIn chart_annual_by Chart annual growth, relative to some base year.
 #'
+#' @importFrom yeartools CY
+#' @importFrom qtytools sum_annual_quantities_by
+#' @importFrom dplyr group_modify
+#' @importFrom ggplot2 geom_hline
+#'
 #' @export
 chart_annual_growth_by <- function (
   data,

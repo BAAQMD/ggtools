@@ -1,3 +1,6 @@
+#'
+#' @importFrom ggplot2 coord_equal geom_abline
+#'
 #' @export
 gg_scatterplot <- function (
   data,

@@ -1,3 +1,4 @@
+#' @importFrom ggplot2 theme_minimal
 #' @export
 gg_theme_minimalist <- function (
   plot.title = element_text(face = "bold"),
