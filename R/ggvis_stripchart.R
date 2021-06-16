@@ -10,7 +10,7 @@
 #' BY2011_NOx_by_cnty %>% ggvis_stripchart(fill = ~cnty_abbr)
 #'
 #' @importFrom ggvis layer_lines compute_stack layer_ribbons scale_numeric compute_stack
-#' @importFrom ggvis add_axis set_options
+#' @importFrom ggvis add_axis set_options add_legend
 #' @importFrom dplyr group_by_
 #' @export
 ggvis_stripchart <- function (

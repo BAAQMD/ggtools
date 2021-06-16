@@ -3,6 +3,8 @@
 #' @seealso
 #' - [gg_throughput_chart()]
 #'
+#' @importFrom ggplot2 labs
+#'
 #' @export
 gg_emission_chart <- function (
   chart_data,

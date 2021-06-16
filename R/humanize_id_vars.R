@@ -1,3 +1,4 @@
+#' @importFrom stringr str_remove_all
 humanize_id_vars <- function (
   input_data,
   prefix = "#",

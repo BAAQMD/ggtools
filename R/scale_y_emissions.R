@@ -1,6 +1,6 @@
 #' scale_y_emissions
 #'
-#' @importFrom ggplot2 scale_y_continuous
+#' @importFrom ggplot2 scale_y_continuous sec_axis
 #'
 #' @export
 scale_y_emissions <- function (

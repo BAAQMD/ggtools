@@ -5,6 +5,8 @@
 #' chart_data <- data_frame(year = test_yrs, ems_qty = seq(100, 200, length.out = length(test_yrs)), ems_unit = "tons/yr")
 #' gg_annual_chart(chart_data) + geom_point()
 #'
+#' @importFrom ggplot2 facet_wrap aes_
+#'
 #' @export
 gg_annual_chart <- function (chart_data, qty_var = NULL, format = NULL, ..., verbose = TRUE) {
 
