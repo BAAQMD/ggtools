@@ -1,7 +1,7 @@
 Package: ggtools
 Type: Package
 Title: Helpers for Charting, Mapping, and Plotting Air Quality and Related Data
-Version: 2021.04.28
+Version: 2021.06.15
 Author: David Holstius
 Maintainer: David Holstius <dholstius@baaqmd.gov>
 Description: Extends the usefulness of ggplot2.
@@ -35,7 +35,8 @@ Imports:
   stringr,
   tidyr,
   tidyselect,
-  vartools
+  vartools,
+  tibble
 Suggests:
   ggvis,
   lltools,

@@ -2,7 +2,7 @@
 #'
 #' @examples
 #' test_yrs <- RY(2014:2016)
-#' chart_data <- data_frame(year = test_yrs, ems_qty = seq(100, 200, length.out = length(test_yrs)), ems_unit = "tons/yr")
+#' chart_data <- tibble(year = test_yrs, ems_qty = seq(100, 200, length.out = length(test_yrs)), ems_unit = "tons/yr")
 #' gg_annual_chart(chart_data) + geom_point()
 #'
 #' @export
