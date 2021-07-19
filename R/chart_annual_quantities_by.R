@@ -10,7 +10,7 @@
 #' @importFrom strtools str_csv
 #' @importFrom yeartools timeline elide_year
 #' @importFrom stringr str_c
-#' @importFrom dplyr group_by_at group_vars ungroup mutate pull filter if_else distinct
+#' @importFrom dplyr lag group_by_at group_vars ungroup mutate pull filter if_else distinct
 #' @importFrom qtytools annual_quantities_by
 #' @importFrom tidyr unite
 #' @importFrom rlang set_names
@@ -251,7 +251,7 @@ chart_annual_quantities_by <- function(
           all_of(grp_vars)) %>%
         dplyr::mutate(
           year_break = dplyr::if_else(
-            as.numeric(elide_year(year)) - lag(as.numeric(elide_year(year))) >= 2,
+            as.numeric(elide_year(year)) - dplyr::lag(as.numeric(elide_year(year))) >= 2,
             true = TRUE, false = FALSE, missing = FALSE)) %>%
         dplyr::mutate(
           series = stringr::str_c(
