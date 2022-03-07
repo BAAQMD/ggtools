@@ -29,6 +29,15 @@ scale_log10 <- function (
     limits = waiver(),
     labels = label_log10,
     expand = expansion(mult = c(0.01, 0.01)),
+    outside = FALSE,
+    scaled = TRUE,
+    short = unit(0.1, "cm"),
+    mid = unit(0.2, "cm"),
+    long = unit(0.3, "cm"),
+    color = "black",
+    size = 0.5,
+    linetype = 1,
+    alpha = 1,
     verbose = getOption("verbose", default = FALSE)
   ) {
 
@@ -46,13 +55,23 @@ scale_log10 <- function (
       ggplot_scale(
         ...,
         limits = limits,
+        expand = expand,
         breaks = 10 ^ log10_breaks,
         minor_breaks = minor_breaks,
         labels = labels)
 
     annotation_object <-
       ggplot2::annotation_logticks(
-        sides = sides)
+        sides = sides,
+        outside = outside,
+        scaled = scaled,
+        short = short,
+        mid = mid,
+        long = long,
+        color = color,
+        size = size,
+        linetype = linetype,
+        alpha = alpha)
 
     return(list(scale_object, annotation_object))
 
