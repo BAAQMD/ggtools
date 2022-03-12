@@ -43,3 +43,37 @@ scale_quantity <- function (
   return(scale_object)
 
 }
+
+#' scale_x_quantity
+#'
+#' @describeIn scale_quantity
+#'
+#' @export
+scale_x_quantity <-
+  purrr::partial(
+    scale_quantity,
+    dimension = "x")
+
+#' scale_y_quantity
+#'
+#' @describeIn scale_quantity
+#'
+#' @export
+scale_y_quantity <-
+  purrr::partial(
+    scale_quantity,
+    dimension = "y")
+
+#' scale_xy_quantity
+#'
+#' @describeIn scale_quantity
+#'
+#' @usage scale_xy_quantity(...)
+#'
+#' @export
+scale_xy_quantity <- function (name, ...) {
+  list(
+    scale_x_quantity(first(name), ...),
+    scale_y_quantity(last(name), ...),
+    coord_equal())
+}
