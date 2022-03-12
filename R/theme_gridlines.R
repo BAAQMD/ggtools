@@ -24,4 +24,7 @@ theme_gridlines <- function (
     ggplot2::theme(
       panel.grid.major.x = line_element,
       panel.grid.major.y = line_element)
+
+  return(theme_object)
+
 }
