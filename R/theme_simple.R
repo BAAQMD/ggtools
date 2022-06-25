@@ -16,11 +16,14 @@ theme_simple <- function (
 
   title_styling <-
     theme(
-      plot.title = element_text(face = "bold"),
+      plot.title = element_text(
+        face = "bold",
+        size = rel(1.4)),
       plot.subtitle = element_text(
         color = gray(0.3),
         lineheight = rel(1.05),
-        margin = margin(t = 3, r = 0, b = 15, l = 0, unit = "pt")),
+        margin = margin(t = 3, r = 0, b = 15, l = 0, unit = "pt"),
+        size = rel(1.1)),
       plot.caption = element_text(
         color = gray(0.6),
         hjust = 0,
@@ -38,17 +41,22 @@ theme_simple <- function (
     theme(
       axis.line = thin_line(),
       axis.ticks.x = thin_line(),
+      axis.text = element_text(
+        size = rel(1.0)),
       axis.title = element_text(
-        size = rel(0.9)),
+        size = rel(1.0)),
+      axis.title.x = element_text(
+        margin = uniform_margin(1, "line")),
       axis.title.y = element_text(
-        margin = uniform_margin(10, "pt")),
+        margin = uniform_margin(1, "line")),
       axis.title.y.right = element_text(
-        margin = uniform_margin(10, "pt"),
+        margin = uniform_margin(1, "line"),
         angle = 90))
 
   strip_styling <-
     theme(
       strip.text = element_text(
+        size = rel(1.0),
         color = "black",
         hjust = 0,
         face = "bold"),
@@ -59,14 +67,14 @@ theme_simple <- function (
       legend.position = legend.position,
       legend.title = element_text(
         face = "bold",
-        size = rel(0.95)),
+        size = rel(1.0)),
       legend.text = element_text(
-        size = rel(0.95)))
+        size = rel(1.0)))
 
   theme_parts <-
     list(
       theme_linedraw(...),
-      theme(plot.margin = uniform_margin(10, "pt")),
+      theme(plot.margin = uniform_margin(1, "line")),
       title_styling,
       panel_styling,
       axis_styling,
