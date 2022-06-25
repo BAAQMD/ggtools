@@ -15,6 +15,8 @@ scale_y_ecdf(
 )
 }
 \arguments{
+\item{name}{(character) title}
+
 \item{...}{(numeric) passed to \code{\link[=scale_y_percentage]{scale_y_percentage()}}}
 
 \item{trans}{(character) useful choices are "logit" and "identity" (the default).}

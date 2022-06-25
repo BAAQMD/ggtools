@@ -1,6 +1,6 @@
 #' scale_y_ecdf
 #'
-#' @param name
+#' @param name (character) title
 #' @param trans (character) useful choices are "logit" and "identity" (the default).
 #' @param digits (numeric) passed to [scale_y_percentage()]
 #' @param limits (numeric) passed to [scale_y_percentage()]

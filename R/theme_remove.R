@@ -1,6 +1,6 @@
 #' theme_remove
 #'
-#' Removes specified theme elements by setting them to [ggplot2::theme_blank()].
+#' Removes specified theme elements by setting them to [ggplot2::element_blank()].
 #'
 #' @details
 #' All combinations of the elements in `...` will be removed.

@@ -10,7 +10,7 @@ theme_remove(...)
 \item{...}{(character) see Details and examples}
 }
 \description{
-Removes specified theme elements by setting them to \code{\link[ggplot2:theme_blank]{ggplot2::theme_blank()}}.
+Removes specified theme elements by setting them to \code{\link[ggplot2:element]{ggplot2::element_blank()}}.
 }
 \details{
 All combinations of the elements in \code{...} will be removed.
