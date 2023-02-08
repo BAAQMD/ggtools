@@ -10,15 +10,15 @@
 #' @noRd
 scale_log10 <- function (
   axis,
-  ...,
-  sides = NULL
+  sides = NULL,
+  ticks = TRUE
 ) {
 
   if (axis == "x") {
-    ggplot_scale <- ggplot2::scale_x_log10
+    scale_fun <- ggplot2::scale_x_log10
     if (is.null(sides)) sides = "b"
   } else if (axis == "y") {
-    ggplot_scale <- ggplot2::scale_y_log10
+    scale_fun <- ggplot2::scale_y_log10
     if (is.null(sides)) sides = "l"
   } else {
     stop("axis must be \"x\" or \"y\"")
@@ -27,6 +27,8 @@ scale_log10 <- function (
   f <- function (
     ...,
     limits = waiver(),
+    breaks = scales::breaks_log(base = 10),
+    minor_breaks = waiver(),
     labels = label_log10,
     expand = expansion(mult = c(0.01, 0.01)),
     outside = FALSE,
@@ -38,42 +40,55 @@ scale_log10 <- function (
     size = 0.5,
     linetype = 1,
     alpha = 1,
+    ticks = TRUE,
     verbose = getOption("verbose", default = FALSE)
   ) {
 
     msg <- function (...) if(isTRUE(verbose)) message("[scale_y_log10] ", ...)
 
-    log10_breaks <- seq(
-      floor(min(log10(limits))),
-      ceiling(max(log10(limits))),
-      by = 1)
-
-    minor_breaks <-
-      as.numeric(c(1:9) %o% (10 ^ log10_breaks))
+    # if (inherits(breaks, "waiver")) {
+    #
+    #   breaks_min <- floor(min(log10(limits)))
+    #   breaks_max <- ceiling(max(log10(limits)))
+    #   breaks <- seq(breaks_min, breaks_max, by = 1)
+    #
+    #   if (inherits(minor_breaks, "waiver")) {
+    #     minor_breaks <- as.numeric(outer(1:9, 10 ^ breaks))
+    #   }
+    #
+    # }
 
     scale_object <-
-      ggplot_scale(
+      scale_fun(
         ...,
         limits = limits,
         expand = expand,
-        breaks = 10 ^ log10_breaks,
+        breaks = breaks,
         minor_breaks = minor_breaks,
         labels = labels)
 
-    annotation_object <-
-      ggplot2::annotation_logticks(
-        sides = sides,
-        outside = outside,
-        scaled = scaled,
-        short = short,
-        mid = mid,
-        long = long,
-        color = color,
-        size = size,
-        linetype = linetype,
-        alpha = alpha)
+    retval <- list(scale_object)
 
-    return(list(scale_object, annotation_object))
+    if (isTRUE(ticks)) {
+
+      ticks_object <-
+        ggplot2::annotation_logticks(
+          sides = sides,
+          outside = outside,
+          scaled = scaled,
+          short = short,
+          mid = mid,
+          long = long,
+          color = color,
+          size = size,
+          linetype = linetype,
+          alpha = alpha)
+
+      retval <- append(retval, list(ticks_object))
+
+    }
+
+    return(retval)
 
   }
 

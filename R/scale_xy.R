@@ -2,7 +2,8 @@ scale_xy <- function (
   name = NULL,
   ...,
   scale = "continuous",
-  ratio = 1
+  ratio = 1,
+  ticks = TRUE
 ) {
 
   x_scale <- get(str_c("scale_x_", scale))
@@ -17,7 +18,15 @@ scale_xy <- function (
   }
 
   # can be safely added to a ggplot-style chain of `+`s
-  lst <- list(x_scale(x_name, ...), y_scale(y_name, ...))
+  if (isTRUE(scale == "log10")) {
+    lst <- list(
+      x_scale(x_name, ...),
+      y_scale(y_name, ...))
+  } else {
+    lst <- list(
+      x_scale(x_name, ...),
+      y_scale(y_name, ...))
+  }
 
   if (is.numeric(ratio)) {
     lst <- append(lst, coord_fixed(ratio = ratio))
@@ -55,7 +64,7 @@ scale_xy_log10 <- function (
   ...,
   labels = label_log10,
   expand = ggplot2::expansion(0, 0),
-  logticks = TRUE
+  ticks = TRUE
 ) {
 
   lst <-
@@ -65,7 +74,7 @@ scale_xy_log10 <- function (
       expand = expand,
       scale = "log10")
 
-  if (isTRUE(logticks)) {
+  if (isTRUE(ticks)) {
     lst <- append(lst, annotation_logticks())
   }
 

@@ -6,6 +6,7 @@ gg_scatterplot <- function (
   alpha = 0.5,
   breaks = NULL,
   limits = c(0, NA),
+  ticks = TRUE,
   scale = "continuous",
   verbose = getOption("verbose")
 ) {
@@ -46,7 +47,7 @@ gg_scatterplot <- function (
 
   plot_obj +
     geom_abline(color = gray(0.9), size = 0.25) +
-    scale_xy(breaks = breaks, limits = limits, scale = scale) +
+    scale_xy(breaks = breaks, limits = limits, scale = scale, ticks = ticks) +
     coord_equal() +
     geom_fun(aes(alpha = I(alpha)))
 

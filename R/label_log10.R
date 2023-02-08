@@ -31,7 +31,7 @@ label_log10 <- function (
 
     formatted <- stringr::str_c("10^{", round(log10(x), digits = digits), "}")
     sanitized <- tidyr::replace_na(formatted, "")
-    latex_expr <- latex2exp::TeX(sanitized, output = output)
+    latex_expr <- latex2exp::TeX(str_c("$", sanitized, "$"), output = output)
     labels <- str_replace_expr(latex_expr, "\\.\\s+([0-9]+)", ".\\1")
 
   } else {
