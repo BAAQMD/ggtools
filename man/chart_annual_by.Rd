@@ -83,19 +83,19 @@ very much like \code{distinct(data, year, ..., tput_qty, tput_unit)}.
 }
 \section{Functions}{
 \itemize{
-\item \code{chart_annual_control_factors_by}: Chart annual control factors.
+\item \code{chart_annual_control_factors_by()}: Chart annual control factors.
 
-\item \code{chart_annual_emission_factors_by}: Chart annual emission factors.
+\item \code{chart_annual_emission_factors_by()}: Chart annual emission factors.
 
-\item \code{chart_annual_emissions_by}: Chart annual emissions.
+\item \code{chart_annual_emissions_by()}: Chart annual emissions.
 
-\item \code{chart_annual_growth_by}: Chart annual growth, relative to some base year.
+\item \code{chart_annual_growth_by()}: Chart annual growth, relative to some base year.
 
-\item \code{chart_annual_quantities_by}: Chart an arbitrary annual quantity.
+\item \code{chart_annual_quantities_by()}: Chart an arbitrary annual quantity.
 
-\item \code{chart_annual_throughputs_by}: Chart annual throughputs.
+\item \code{chart_annual_throughputs_by()}: Chart annual throughputs.
+
 }}
-
 \note{
 In \code{chart_annual_growth_by()}, \code{base_year} serves to index the reference year for normalization.
 }

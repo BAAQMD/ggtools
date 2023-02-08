@@ -16,8 +16,8 @@ scale_y_log10
 }
 \section{Functions}{
 \itemize{
-\item \code{scale_x_log10}: x scale
+\item \code{scale_x_log10()}: x scale
 
-\item \code{scale_y_log10}: y scale
+\item \code{scale_y_log10()}: y scale
+
 }}
-

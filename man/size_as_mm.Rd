@@ -9,9 +9,6 @@ size_as_mm(size)
 \arguments{
 \item{size}{}
 }
-\value{
-
-}
 \description{
 size_as_mm
 }

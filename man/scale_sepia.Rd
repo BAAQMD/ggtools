@@ -49,8 +49,8 @@ Built to resemble ArcGIS-style "pollution" color ramps.
 }
 \section{Functions}{
 \itemize{
-\item \code{scale_fill_sepia}: fill scale
+\item \code{scale_fill_sepia()}: fill scale
 
-\item \code{scale_color_sepia}: color scale
+\item \code{scale_color_sepia()}: color scale
+
 }}
-

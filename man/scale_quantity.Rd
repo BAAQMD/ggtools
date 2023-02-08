@@ -47,10 +47,10 @@ Position scales for quantities (x & y)
 }
 \section{Functions}{
 \itemize{
-\item \code{scale_x_quantity}: 
+\item \code{scale_x_quantity()}: 
 
-\item \code{scale_y_quantity}: 
+\item \code{scale_y_quantity()}: 
 
-\item \code{scale_xy_quantity}: 
+\item \code{scale_xy_quantity()}: 
+
 }}
-
